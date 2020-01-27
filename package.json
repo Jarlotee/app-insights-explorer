@@ -1,0 +1,24 @@
+{
+  "name": "app-insights-explorer",
+  "version": "0.1.0",
+  "description": "An app to query and display dashboards from application insights",
+  "scripts": {
+    "dev": "electron src/app",
+    "build": "NODE_ENV=production next build src/browser && next export src/browser -o src/browser/.static",
+    "start": "ELECTRON_IS_DEV=0 electron src/app"
+  },
+  "author": "jared_lotti@carmax.com",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/react": "^16.9.19",
+    "electron": "^7.1.9",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.1.0",
+    "electron-localshortcut": "^3.2.1",
+    "next": "^9.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}
