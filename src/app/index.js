@@ -2,6 +2,9 @@ const { BrowserWindow, app } = require('electron');
 const useNext = require('./next');
 const useDevTools = require('./dev-tools');
 
+// prevent flashing between pages
+app.allowRendererProcessReuse = true;
+
 app.on('ready', async () => {
   try {
     await useDevTools();

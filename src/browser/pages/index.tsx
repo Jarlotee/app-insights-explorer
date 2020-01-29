@@ -1,10 +1,9 @@
-import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { FunctionComponent } from 'react';
 
-export default () => {
-  const { enqueueSnackbar } = useSnackbar();
-  useEffect(() => {
-    enqueueSnackbar('Mmmmm Snackbar', { variant: 'warning'})
-  }, [])
-  return <div>Hello World</div>;
+import Home from '../components/home';
+
+const HomePage: FunctionComponent = () => {
+  return <Home />;
 };
+
+export default HomePage;
