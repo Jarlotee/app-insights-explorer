@@ -3,3 +3,8 @@ export interface Connection {
   id: string;
   key: string;
 }
+
+export interface QueryHistoryItem {
+  timestamp: string;
+  query: string;
+}

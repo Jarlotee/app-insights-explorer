@@ -1,4 +1,4 @@
-import { Connection } from '../../models';
+import { Connection, QueryHistoryItem } from '../../models';
 
 export const saveConnection = (connection: Connection) => {
   const { name } = connection;
@@ -31,4 +31,29 @@ export const getConnection = (name: string) => {
 
   const connections = JSON.parse(localStorage.getItem('connections') || '{}');
   return connections[name];
+};
+
+export const addQueryHistory = (connectionName: string, query: string) => {
+  const item = JSON.parse(localStorage.getItem('history') || '{}');
+  const history: QueryHistoryItem[] = item[connectionName] || [];
+
+  const duplicates = history.filter(h => h.query === query);
+
+  duplicates.forEach(item => {
+    history.splice(history.indexOf(item), 1);
+  });
+
+  history.unshift({ timestamp: new Date().toISOString(), query });
+  item[connectionName] = history.slice(0, 30);
+  localStorage.setItem('history', JSON.stringify(item));
+};
+
+export const getQueryHistory = (connectionName: string) => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const item = JSON.parse(localStorage.getItem('history') || '{}');
+
+  return item[connectionName] || [];
 };

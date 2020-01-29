@@ -14,7 +14,7 @@ const ConnectionRoot: FunctionComponent = () => {
   return (
     <>
       <BreadcrumbNav />
-      <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tabs value={activeTab} onChange={handleTabChange} indicatorColor="primary">
         <Tab value="query" label="Query" />
         <Tab value="dashboard" label="Dashboard" />
       </Tabs>

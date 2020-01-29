@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { runQuery } from '../../gateways/app-insights';
 
 import { Connection } from '../../models';
+import { addQueryHistory } from '../../gateways/settings';
 
 const useQuery = (connection: Connection) => {
   const [query, setQuery] = useState<string | undefined>();
@@ -27,6 +28,7 @@ const useQuery = (connection: Connection) => {
         const response = await runQuery(connection.id, connection.key, query);
         if(response.ok) {
           setResults(await response.json());
+          addQueryHistory(connection.name, query);
         } else {
           const json = await response.json();
           let error = json.error;
