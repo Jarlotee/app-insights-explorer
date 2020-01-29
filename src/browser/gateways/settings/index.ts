@@ -10,7 +10,7 @@ export const saveConnection = (connection: Connection) => {
 
 export const getConnections = () => {
   if (typeof window === 'undefined') {
-    return;
+    return [];
   }
 
   const connections = JSON.parse(localStorage.getItem('connections') || '{}');
