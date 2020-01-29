@@ -5,16 +5,12 @@ import { getConnections } from '../../../gateways/settings';
 import { useRouter } from 'next/router';
 
 const ConnectionHistory: FunctionComponent = () => {
-  const [connections, setConnections] = useState([]);
+  const connections = getConnections();
   const router = useRouter();
 
   const handleItemClick = (name: string) => {
     router.push(`/${name}`);
   };
-
-  useEffect(() => {
-    setConnections(getConnections());
-  }, []);
 
   const header = <ListSubheader>Connection History</ListSubheader>;
 
