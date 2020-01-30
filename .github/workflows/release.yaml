@@ -19,7 +19,7 @@ jobs:
         run: echo "::set-env name=version::${ref:10}"
         shell: bash
       - name: Set Npm Version
-        run: npm version ${{ env.version }} --allow-same-version
+        run: npm version ${{ env.version }} --allow-same-version --no-git-tag-version
         shell: bash
       - name: Dependencies
         run: npm ci
@@ -48,7 +48,7 @@ jobs:
         run: echo "::set-env name=version::${ref:10}"
         shell: bash
       - name: Set Npm Version
-        run: npm version ${{ env.version }} --allow-same-version
+        run: npm version ${{ env.version }} --allow-same-version --no-git-tag-version
         shell: bash
       - name: Dependencies
         run: npm ci
