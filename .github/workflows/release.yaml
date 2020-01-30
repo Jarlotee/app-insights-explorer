@@ -17,16 +17,14 @@ jobs:
         id: create-draft-release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ env.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ env.version }}
+          release_name: ${{ env.version }}
           draft: true
           prerelease: false
       - name: Set Upload Url
-        env:
-          version: ${{ github.ref }}
-        run: echo "::set-env upload_url=${{steps.create-draft-release.outputs.upload_url}}"
+        run: echo "::set-env upload_url=${{ steps.create-draft-release.outputs.upload_url }}"
   mac:
     runs-on: macOS-latest
     needs: draft-release
