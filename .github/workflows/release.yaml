@@ -30,8 +30,8 @@ jobs:
       uses: actions/setup-node@v1
     - name: Update Version
       env:
-        version: ${{ github.ref }}
-      run: npm version $version --allow-same-version
+        VERSION: ${{ github.ref }}
+      run: npm version $VERSION --allow-same-version
     - name: Dependencies
       run: npm ci
     - name: Build
