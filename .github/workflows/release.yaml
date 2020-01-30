@@ -6,35 +6,17 @@ on:
       - '*'
 
 jobs:
-  draft-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set Version Environment Variable
-        env:
-          version: ${{ github.ref }}
-        run: echo "::set-env version=${version:10}"
-      - name: Create Draft Release
-        id: create-draft-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.version }}
-          release_name: ${{ env.version }}
-          draft: true
-          prerelease: false
-      - name: Set Upload Url
-        run: echo "::set-env upload_url=${{ steps.create-draft-release.outputs.upload_url }}"
   mac:
     runs-on: macOS-latest
-    needs: draft-release
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Node
         uses: actions/setup-node@v1
       - name: Set Version
-        run: npm version $version --allow-same-version
+        env:
+          ref: ${{ github.ref }}
+        run: npm version ${ref:10} --allow-same-version
       - name: Dependencies
         run: npm ci
       - name: Build
@@ -43,10 +25,6 @@ jobs:
         run: npm run dist
       - name: Upload Assets
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ env.upload_url }}
-          asset_path: ./dist/app-insights-explorer-${{env.version}}-mac.zip
-          asset_name: app-insights-explorer-${{env.version}}-mac.zip
-          asset_content_type: application/zip
+          name: mac
+          path: dist
