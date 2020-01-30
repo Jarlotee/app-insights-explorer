@@ -4,21 +4,27 @@ import { makeStyles, Theme, TextField, Typography, Button } from '@material-ui/c
 
 import { verify } from '../../../gateways/app-insights';
 import { saveConnection } from '../../../gateways/settings';
+import { useRouter } from 'next/router';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  field: {
-    width: '100%',
-    margin: theme.spacing(.5, 0),
-  },
-  button: {
-    margin: theme.spacing(3, 0, 0),
-    alignSelf: 'flex-end',
-  },
-}));
+const useStyles = makeStyles(
+  (theme: Theme) => ({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    field: {
+      width: '100%',
+      margin: theme.spacing(0.5, 0),
+    },
+    button: {
+      margin: theme.spacing(3, 0, 0),
+      alignSelf: 'flex-end',
+    },
+  }),
+  {
+    name: 'connection-form',
+  }
+);
 
 const ConnectionForm: FunctionComponent = () => {
   const classes = useStyles();
@@ -26,6 +32,7 @@ const ConnectionForm: FunctionComponent = () => {
   const appNameRef = useRef<HTMLInputElement>(null);
   const appIdRef = useRef<HTMLInputElement>(null);
   const apiKeyRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,12 +44,12 @@ const ConnectionForm: FunctionComponent = () => {
         key: apiKeyRef.current.value,
       });
 
-      formRef.current.reset();
+      router.push('/[connection-name]', `/${appNameRef.current.value}`);
     }
   };
 
   return (
-    <form ref={formRef} className={classes.form} onSubmit={onSubmit}>
+    <form ref={formRef} className={classes.root} onSubmit={onSubmit}>
       <Typography variant="subtitle2" component="h2">
         New Connection
       </Typography>

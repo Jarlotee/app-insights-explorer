@@ -7,7 +7,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Layout from './_layout'
+import Layout from './_layout';
 import theme from '../theme';
 
 const _App: NextPage<AppProps> = ({ Component, pageProps }) => {

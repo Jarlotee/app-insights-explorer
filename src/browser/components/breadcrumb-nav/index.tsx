@@ -2,6 +2,7 @@ import { FunctionComponent, MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 import { makeStyles, Theme, Link } from '@material-ui/core';
+import NextLink from 'next/link';
 
 import { Breadcrumbs } from '@material-ui/core';
 
@@ -16,15 +17,16 @@ const BreadcrumbNav: FunctionComponent = () => {
   const classes = useStyles();
 
   const segments = router.asPath.split('/').map(s => decodeURI(s));
+  const slugs = router.pathname.split('/').map(s => decodeURI(s));
 
   const crumbs = segments.map((s, i) => (
-    <Link
+    <NextLink
       key={i}
-      color={i === segments.length - 1 ? 'primary' : 'inherit'}
-      href={encodeURI(segments.slice(0, i + 1).join('/') || '/')}
+      href={slugs.slice(0, i + 1).join('/') || '/'}
+      as={segments.slice(0, i + 1).join('/') || '/'}
     >
-      {s || 'Home'}
-    </Link>
+      <Link color={i === segments.length - 1 ? 'primary' : 'inherit'}>{s || 'Home'}</Link>
+    </NextLink>
   ));
 
   return <Breadcrumbs className={classes.breadcrumbs}>{crumbs}</Breadcrumbs>;

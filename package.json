@@ -4,19 +4,23 @@
   "description": "An app to query and display dashboards from application insights",
   "scripts": {
     "dev": "electron src/app",
-    "build": "NODE_ENV=production rimraf src/browser/.static && next build src/browser && next export src/browser -o src/browser/.static",
-    "start": "ELECTRON_IS_DEV=0 electron src/app"
+    "build": "NODE_ENV=production rimraf src/browser/.static src/browser/.next dist && next build src/browser && next export src/browser -o src/browser/.static",
+    "start": "ELECTRON_IS_DEV=0 electron src/app",
+    "dist": "electron-builder"
   },
+  "main": "src/app/index.js",
   "author": "jared_lotti@carmax.com",
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/react": "^16.9.19",
     "electron": "^7.1.9",
+    "electron-builder": "^22.3.2",
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.0",
+    "@material-ui/core": "4.9.0",
     "@material-ui/icons": "^4.5.1",
+    "app-root-path": "^3.0.0",
     "date-fns": "^2.9.0",
     "electron-is-dev": "^1.1.0",
     "electron-localshortcut": "^3.2.1",
@@ -25,5 +29,12 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "rimraf": "^3.0.0"
+  },
+  "build": {
+    "appId": "app-insights-explorer",
+    "files": [
+      "src/app/**/*",
+      "src/browser/.static/**/*"
+    ]
   }
 }

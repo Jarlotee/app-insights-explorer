@@ -1,21 +1,27 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, ListItemIcon } from '@material-ui/core';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import { getConnections } from '../../../gateways/settings';
 import { useRouter } from 'next/router';
+import useConnections from '../../../hooks/useConnections';
 
 const ConnectionHistory: FunctionComponent = () => {
-  const connections = getConnections();
+  const connections =  useConnections();
   const router = useRouter();
 
   const handleItemClick = (name: string) => {
-    router.push(`/${name}`);
+    router.push('/[connection-name]', `/${name}`);
   };
 
   const header = <ListSubheader>Connection History</ListSubheader>;
 
   const connectionList = connections.map((c, i) => (
-    <ListItem key={i} dense={true} button={true} onClick={handleItemClick.bind(null, c.name)}>
+    <ListItem
+      key={i}
+      dense={true}
+      button={true}
+      component="li"
+      onClick={handleItemClick.bind(null, c.name)}
+    >
       <ListItemText primary={c.name} />
       <ListItemIcon>
         <DoubleArrowIcon />

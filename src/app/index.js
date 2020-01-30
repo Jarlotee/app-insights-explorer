@@ -8,7 +8,7 @@ app.allowRendererProcessReuse = true;
 app.on('ready', async () => {
   try {
     await useDevTools();
-    await useNext('./src/browser');
+    await useNext('src/browser');
 
     new BrowserWindow({
       width: 800,
