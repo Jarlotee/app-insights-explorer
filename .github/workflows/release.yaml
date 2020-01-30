@@ -17,14 +17,19 @@ jobs:
         env:
           ref: ${{ github.ref }}
         run: echo "::set-env name=version::${ref:10}"
+        shell: bash
       - name: Set Npm Version
         run: npm version ${{ env.version }} --allow-same-version
+        shell: bash
       - name: Dependencies
         run: npm ci
+        shell: bash
       - name: Build
         run: npm run build
+        shell: bash
       - name: Package
         run: npm run dist
+        shell: bash
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
@@ -41,16 +46,21 @@ jobs:
         env:
           ref: ${{ github.ref }}
         run: echo "::set-env name=version::${ref:10}"
+        shell: bash
       - name: Set Npm Version
         run: npm version ${{ env.version }} --allow-same-version
+        shell: bash
       - name: Dependencies
         run: npm ci
+        shell: bash
       - name: Build
         run: npm run build
+        shell: bash
       - name: Package
         run: npm run dist
+        shell: bash
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: window
+          name: windows
           path: dist
