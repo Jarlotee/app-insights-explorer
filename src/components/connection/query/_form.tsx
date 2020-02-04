@@ -75,7 +75,7 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
           className={classes.menuButton}
           onClick={handleFormatQuery}
         >
-          Format Query
+          Format
         </Button>
       </Toolbar>
       <TextField
