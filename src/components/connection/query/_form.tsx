@@ -4,6 +4,7 @@ import { Toolbar, Button, Theme, makeStyles, TextField } from '@material-ui/core
 
 import HistoryIcon from '@material-ui/icons/History';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import LanguageIcon from '@material-ui/icons/Language';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 
 import ConnectionQueryHistory from './_history';
@@ -13,6 +14,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     minWidth: theme.spacing(12),
     marginRight: theme.spacing(1),
   },
+  menuButtonEnd: {
+    minWidth: theme.spacing(12),
+    marginLeft: 'auto',
+  }
 }));
 
 type ConnectionQueryFormProps = {
@@ -76,6 +81,17 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
           onClick={handleFormatQuery}
         >
           Format
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<LanguageIcon />}
+          className={classes.menuButtonEnd}
+          href="https://docs.microsoft.com/en-us/azure/kusto/query/"
+          rel="noopener"
+          target="_blank"
+        >
+          Reference
         </Button>
       </Toolbar>
       <TextField
