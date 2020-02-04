@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next src",
     "build": "cross-env NODE_ENV=production next build src",
-    "start": "cross-env NODE_ENV=production next start src -p 8080"
+    "start": "cross-env NODE_ENV=production next start src -p 8080",
+    "test": "echo 'no tests available' && exit 0"
   },
   "author": "Jarlotee",
   "license": "MIT",
