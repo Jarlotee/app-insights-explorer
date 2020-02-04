@@ -1,8 +1,10 @@
 import { FunctionComponent, useState, useRef, Dispatch, SetStateAction } from 'react';
 
 import { Toolbar, Button, Theme, makeStyles, TextField } from '@material-ui/core';
+
 import HistoryIcon from '@material-ui/icons/History';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 
 import ConnectionQueryHistory from './_history';
 
@@ -31,6 +33,12 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
   const handleRunClick = () => setQuery(queryRef.current.value);
   const handleHistoryClick = () => setIsQueryHistoryOpen(s => !s);
   const handleSetQuery = (query: string) => (queryRef.current.value = query);
+  const handleFormatQuery = () => {
+    queryRef.current.value = queryRef.current.value
+      .replace(/\s{2,}/g, ' ')
+      .replace(/\s*\|/g, '\n|')
+      .trim();
+  };
 
   return (
     <>
@@ -59,6 +67,15 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
           onClick={handleHistoryClick}
         >
           History
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<FormatAlignLeftIcon />}
+          className={classes.menuButton}
+          onClick={handleFormatQuery}
+        >
+          Format Query
         </Button>
       </Toolbar>
       <TextField
