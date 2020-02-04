@@ -17,5 +17,5 @@ jobs:
         run: npm run build
         shell: bash
       - name: Test
-        run: npm run Test
+        run: npm test
         shell: bash
