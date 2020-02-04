@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next src",
     "build": "cross-env NODE_ENV=production next build src",
-    "start": "cross-env NODE_ENV=production next start src"
+    "start": "cross-env NODE_ENV=production next start src -p 8080"
   },
   "author": "Jarlotee",
   "license": "MIT",
