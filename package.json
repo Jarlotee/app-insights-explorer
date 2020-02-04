@@ -7,7 +7,7 @@
     "build": "cross-env NODE_ENV=production next build src",
     "start": "cross-env NODE_ENV=production next start src"
   },
-  "author": "jared_lotti@carmax.com",
+  "author": "Jarlotee",
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/node": "^13.7.0",
