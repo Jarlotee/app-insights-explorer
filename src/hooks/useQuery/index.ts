@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 
 import { runQuery } from '../../gateways/app-insights';
 
-import { Connection } from '../../models';
+import { Connection, ApplicationInsightsResponse } from '../../models';
+
 import { addQueryHistory } from '../../gateways/settings';
 
 const useQuery = (connection: Connection) => {
   const [query, setQuery] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
-  const [results, setResults] = useState();
+  const [results, setResults] = useState<ApplicationInsightsResponse | undefined>();
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,18 +27,17 @@ const useQuery = (connection: Connection) => {
         setIsRunning(true);
         setError(undefined);
         const response = await runQuery(connection.id, connection.key, query);
-        if(response.ok) {
+        if (response.ok) {
           setResults(await response.json());
           addQueryHistory(connection.name, query);
         } else {
           const json = await response.json();
           let error = json.error;
-          while(error.innererror) {
-            error = error.innererror
+          while (error.innererror) {
+            error = error.innererror;
           }
           setError(error.message);
         }
-
       } catch (error) {
         setError(error);
       } finally {
@@ -48,7 +48,7 @@ const useQuery = (connection: Connection) => {
     handle();
   }, [connection, query]);
 
-  return [setQuery, error, isRunning, results];
+  return { query, setQuery, error, isRunning, results };
 };
 
 export default useQuery;
