@@ -5,6 +5,7 @@ import { Theme, makeStyles } from '@material-ui/core';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 
 import { ItemTypes } from './_constants';
+import { DashboardItem } from '../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,7 +33,12 @@ const ConnectionDashboardPlaceholder: FunctionComponent<ConnectionDashboardPlace
   column,
 }) => {
   const classes = useStyles();
-  const [{ highlighted }, ref] = useDrop({ accept, collect });
+  const canDrop = (item: DashboardItem) => {
+    if(column + item.width - 1 > 59) return false;
+    if(row + item.height - 1 > 30) return false;
+    return true;
+  };
+  const [{ highlighted }, ref] = useDrop({ accept, collect, canDrop });
 
   return (
     <div
