@@ -13,10 +13,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {
     minWidth: theme.spacing(12),
     marginRight: theme.spacing(1),
+    '& .MuiSvgIcon-root': {
+      fontSize: '15px',
+      marginBottom: '2px',
+    },
   },
   menuButtonEnd: {
     minWidth: theme.spacing(12),
     marginLeft: 'auto',
+    '& .MuiSvgIcon-root': {
+      fontSize: '15px',
+      marginBottom: '2px',
+    },
   }
 }));
 

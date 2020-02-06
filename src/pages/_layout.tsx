@@ -9,12 +9,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import Nav from '../components/nav';
 
 const useStyles = makeStyles({
+  '@global': {
+    'html, body': {
+      height: '100%',
+    },
+    '#__next': {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
   shared: {
     color: 'white',
   },
   info: {
     backgroundColor: '#6D747A',
     color: 'white',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
   },
 });
 
@@ -31,7 +46,9 @@ const _Layout: FunctionComponent = ({ children }) => {
       }}
     >
       <Nav />
-      <Container>{children}</Container>
+      <Container maxWidth={false} className={classes.container}>
+        {children}
+      </Container>
     </SnackbarProvider>
   );
 };
