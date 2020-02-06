@@ -21,7 +21,7 @@ const ConnectionDashboardTileLabel: FunctionComponent = () => {
     type: ItemTypes.label,
     width: 3,
     height: 1,
-    config: { name: 'New Label' },
+    config: { primary: 'New Label' },
   };
   const [_, ref] = useDrag({ item });
 

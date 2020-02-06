@@ -24,27 +24,32 @@ const collect = (monitor: DropTargetMonitor) => ({
 const accept = [ItemTypes.label, ItemTypes.chart];
 
 type ConnectionDashboardPlaceholderProps = {
+  index: number;
   row: number;
   column: number;
+  onDrop: (item: DashboardItem, anchor: number) => void;
 };
 
 const ConnectionDashboardPlaceholder: FunctionComponent<ConnectionDashboardPlaceholderProps> = ({
+  index,
   row,
   column,
+  onDrop,
 }) => {
   const classes = useStyles();
   const canDrop = (item: DashboardItem) => {
-    if(column + item.width - 1 > 59) return false;
-    if(row + item.height - 1 > 30) return false;
+    if (column + item.width - 1 > 59) return false;
+    if (row + item.height - 1 > 30) return false;
     return true;
   };
-  const [{ highlighted }, ref] = useDrop({ accept, collect, canDrop });
+  const drop = item => onDrop(item, index);
+  const [{ highlighted }, ref] = useDrop({ accept, collect, canDrop, drop });
 
   return (
     <div
       className={classnames(classes.root, { [classes.highlighted]: highlighted })}
       ref={ref}
-      title={`[${row}-${column}]`}
+      title={`[${row}-${column}-${index}]`}
     />
   );
 };

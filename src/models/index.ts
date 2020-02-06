@@ -28,7 +28,9 @@ export interface Dashboard {
 }
 
 export interface DashboardItem {
-  position?: number;
+  id?: Symbol;
+  anchor?: number;
+  positions?: number[];
   type: string;
   width: number;
   height: number;
