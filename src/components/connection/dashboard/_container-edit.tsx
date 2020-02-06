@@ -10,6 +10,10 @@ import { Dashboard, DashboardItem } from '../../../models';
 import ConnectionDashboardTileDrawer from './_tile-drawer';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: 'flex',
+    minHeight: 0,
+  },
   editing: {
     flexGrow: 1,
     overflow: 'scroll',
@@ -34,12 +38,7 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
   dashboard,
 }) => {
   const classes = useStyles();
-  const [drawerIsOpen, setDrawerIsOpen] = useState(true);
   const [editingLayout, setEdditingLayout] = useState();
-
-  const handleToggle = () => {
-    setDrawerIsOpen(value => !value);
-  };
 
   useEffect(() => {
     const placeholders = new Array(59 * 30).fill(undefined);
@@ -55,9 +54,11 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <ConnectionDashboardTileDrawer isOpen={drawerIsOpen} handleToggle={handleToggle} />
-      <div className={classes.editing}>
-        <div className={classes.scrollable}>{editingLayout}</div>
+      <div className={classes.root}>
+        <ConnectionDashboardTileDrawer />
+        <div className={classes.editing}>
+          <div className={classes.scrollable}>{editingLayout}</div>
+        </div>
       </div>
     </DndProvider>
   );

@@ -17,7 +17,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConnectionDashboardTileLabel: FunctionComponent = () => {
   const classes = useStyles();
-  const item: DashboardItem = { type: ItemTypes.label, config: { name: 'New Label' } };
+  const item: DashboardItem = {
+    type: ItemTypes.label,
+    width: 3,
+    height: 1,
+    config: { name: 'New Label' },
+  };
   const [_, ref] = useDrag({ item });
 
   return (

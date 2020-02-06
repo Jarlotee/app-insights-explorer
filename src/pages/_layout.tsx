@@ -4,11 +4,11 @@ import { SnackbarProvider } from 'notistack';
 
 import Container from '@material-ui/core/Container';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import Nav from '../components/nav';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   '@global': {
     'html, body': {
       height: '100%',
@@ -30,8 +30,10 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    minHeight: 0,
+    paddingBottom: theme.spacing(1),
   },
-});
+}));
 
 const _Layout: FunctionComponent = ({ children }) => {
   const classes = useStyles();

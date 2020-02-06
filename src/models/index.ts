@@ -30,7 +30,7 @@ export interface Dashboard {
 export interface DashboardItem {
   position?: number;
   type: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   config: Record<string, string>;
 }
