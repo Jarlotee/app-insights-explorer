@@ -34,9 +34,9 @@ const useDashboard = (connectionName: string) => {
     item.anchor = anchor;
     item.positions = calculatePositions(item, anchor);
 
-    const collision = dashboard.items.filter(
-      i => !!item.positions?.filter(i2 => i.positions.includes(i2)).length
-    );
+    const collision = dashboard.items
+      .filter(i => i.id !== item.id)
+      .filter(i => !!item.positions?.filter(i2 => i.positions.includes(i2)).length);
 
     if (!collision.length) {
       const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;

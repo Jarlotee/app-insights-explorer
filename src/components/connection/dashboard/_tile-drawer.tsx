@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { ListSubheader, List, Paper, makeStyles, Theme } from '@material-ui/core';
 
-import ConnectionDashboardTileLabel from './_tile-label';
+import ConnectionDashboardTileNewLabel from './tiles/new-label';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -17,7 +17,7 @@ const ConnectionDashboardTileDrawer: FunctionComponent = () => {
   return (
     <Paper className={classes.root}>
       <List component="ul" subheader={header}>
-        {<ConnectionDashboardTileLabel key={0} />}
+        {<ConnectionDashboardTileNewLabel key={0} />}
       </List>
     </Paper>
   );
