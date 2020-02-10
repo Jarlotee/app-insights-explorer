@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core';
 
@@ -23,13 +23,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConnectionDashboard: FunctionComponent = () => {
   const classes = useStyles();
   const connection = useConnection();
+
+  const [isEditing, setIsEditing] = useState(true);
+
   const { dashboard, onDrop, onEdit, onSave } = useDashboard(connection ? connection.name : '');
 
-  const body = <ConnectionDashboardContainerEdit dashboard={dashboard} onDrop={onDrop} onEdit={onEdit} />;
+  const handleOnSave = () => {
+    setIsEditing(false);
+    onSave();
+  };
+
+  const body = (
+    <ConnectionDashboardContainerEdit dashboard={dashboard} onDrop={onDrop} onEdit={onEdit} />
+  );
 
   return (
     <div className={classes.root}>
-      <ConnectionDashboardToolbar />
+      <ConnectionDashboardToolbar isEditing={isEditing} onSave={handleOnSave} />
       {body}
     </div>
   );

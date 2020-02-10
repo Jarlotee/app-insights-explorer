@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { v4 } from 'uuid';
 
-import { getDashboard } from '../../gateways/settings';
+import { getDashboard, saveDashboard } from '../../gateways/settings';
 
 import { Dashboard, DashboardItem } from '../../models';
 
@@ -84,7 +84,7 @@ const useDashboard = (connectionName: string) => {
   }
 
   const onSave = () => {
-    console.log('saving it!');
+    saveDashboard(connectionName, dashboard);
   };
 
   useEffect(() => {

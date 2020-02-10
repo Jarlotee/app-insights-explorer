@@ -12,7 +12,7 @@ import { DashboardLabelItem } from '../../../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: '186px',
+    width: '188px',
     height: '60px',
   },
   dragging: {

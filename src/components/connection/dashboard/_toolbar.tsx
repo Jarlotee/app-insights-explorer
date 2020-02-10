@@ -2,6 +2,8 @@ import { FunctionComponent } from 'react';
 
 import { Toolbar, Button, Theme, makeStyles } from '@material-ui/core';
 
+import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -26,8 +28,46 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ConnectionDashboardToolbar: FunctionComponent = () => {
+type ConnectionDashboardToolbarProps = {
+  isEditing: boolean;
+  onSave: () => void;
+};
+
+const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarProps> = ({
+  isEditing,
+  onSave,
+}) => {
   const classes = useStyles();
+
+  const disgardChanges = () => {
+    window.location.reload();
+  };
+
+  if (isEditing) {
+    return (
+      <Toolbar variant="dense" disableGutters={true}>
+        <Button
+          size="small"
+          variant="outlined"
+          color="primary"
+          className={classes.menuButton}
+          startIcon={<SaveIcon />}
+          onClick={onSave}
+        >
+          Save Changes
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          className={classes.menuButton}
+          startIcon={<DeleteIcon />}
+          onClick={disgardChanges}
+        >
+          Disgard Changes
+        </Button>
+      </Toolbar>
+    );
+  }
 
   return (
     <Toolbar variant="dense" disableGutters={true}>

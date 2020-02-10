@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, CSSProperties } from 'react';
 import classnames from 'classnames';
 
 import { Theme, makeStyles } from '@material-ui/core';
@@ -45,9 +45,17 @@ const ConnectionDashboardPlaceholder: FunctionComponent<ConnectionDashboardPlace
   const drop = item => onDrop(item, index);
   const [{ highlighted }, ref] = useDrop({ accept, collect, canDrop, drop });
 
+  const style: CSSProperties = {
+    gridColumnStart: column,
+    gridColumnEnd: column + 1,
+    gridRowStart: row,
+    gridRowEnd: row + 1,
+  };
+
   return (
     <div
       className={classnames(classes.root, { [classes.highlighted]: highlighted })}
+      style={style}
       ref={ref}
       title={`[${row}-${column}-${index}]`}
     />
