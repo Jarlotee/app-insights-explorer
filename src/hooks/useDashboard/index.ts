@@ -56,6 +56,33 @@ const useDashboard = (connectionName: string) => {
     }
   };
 
+  const onResize = (_item: DashboardItem) => {
+    const item = JSON.parse(JSON.stringify(_item));
+
+    item.positions = calculatePositions(item, item.anchor);
+
+    const collision = dashboard.items
+      .filter(i => i.id !== item.id)
+      .filter(i => !!item.positions?.filter(i2 => i.positions.includes(i2)).length);
+
+    if (!collision.length) {
+      const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;
+      if (!item.id) {
+        item.id = v4();
+        updatedDashboard.items.push(item);
+      } else {
+        let index = updatedDashboard.items.findIndex(i => i.id === item.id);
+        if (index === -1) {
+          updatedDashboard.items.push(item);
+        } else {
+          updatedDashboard.items.splice(index, 1, item);
+        }
+      }
+
+      setDashboard(updatedDashboard);
+    }
+  }
+
   const onSave = () => {
     console.log('saving it!');
   };
@@ -65,7 +92,7 @@ const useDashboard = (connectionName: string) => {
     setDashboard(dashboard);
   }, [connectionName]);
 
-  return { dashboard, onDrop, onSave };
+  return { dashboard, onDrop, onResize, onSave };
 };
 
 export default useDashboard;
