@@ -4,8 +4,6 @@ import classnames from 'classnames';
 
 import { Paper, makeStyles, Theme } from '@material-ui/core';
 
-import TextureIcon from '@material-ui/icons/Texture';
-
 import { DashboardItem } from '../../../../../models';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
 import useResize from '../../../../../hooks/useResize';
@@ -25,13 +23,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'none !important',
   },
   icon: {
-    clipPath: 'polygon(100% 0, 80% 0, 0 80%, 0 100%, 100% 100%)',
     position: 'absolute',
-    bottom: 1,
-    right: 1,
-    fontSize: '18px',
-    color: '#8c9196',
-    cursor: 'grab',
+    right: 0,
+    bottom: 0,
+    width: '14px',
+    height: '14px',
+    margin: theme.spacing(0.75),
+    borderRight: '2px solid #1c2733',
+    borderBottom: '2px solid #1c2733',
+    cursor: 'grab'
   },
 }));
 
@@ -52,7 +52,7 @@ const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBase
   onResize,
 }) => {
   const classes = useStyles();
-  const resizeRef = useRef<SVGSVGElement>();
+  const resizeRef = useRef<HTMLDivElement>();
 
   const onDragEnd = final => {
     const newItem = JSON.parse(JSON.stringify(item));
@@ -88,7 +88,7 @@ const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBase
       <Paper ref={ref} className={classNames}>
         {children}
       </Paper>
-      <TextureIcon ref={resizeRef} className={classes.icon} />
+      <div ref={resizeRef} className={classes.icon} />
     </div>
   );
 };

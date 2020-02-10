@@ -22,7 +22,7 @@ const calculateGridDelta = (start: MousePosition, current: MousePosition): GridO
 };
 
 const useResize = (
-  ref: MutableRefObject<SVGSVGElement>,
+  ref: MutableRefObject<any>,
   onDragEnd: (offset: GridOffset) => void
 ) => {
   const [startPosition, setStartPosition] = useState<MousePosition>();
