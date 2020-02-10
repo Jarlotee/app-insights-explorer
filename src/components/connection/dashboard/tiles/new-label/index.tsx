@@ -8,7 +8,7 @@ import { ListItem, ListItemText, ListItemIcon, makeStyles, Theme } from '@materi
 
 import LabelIcon from '@material-ui/icons/Label';
 import { ItemTypes } from '../../_constants';
-import { DashboardItem } from '../../../../../models';
+import { DashboardLabelItem } from '../../../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,11 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConnectionDashboardTileLabel: FunctionComponent = () => {
   const classes = useStyles();
   const collect = (monitor: DragSourceMonitor) => ({ isDragging: monitor.isDragging() });
-  const item: DashboardItem = {
+  const item: DashboardLabelItem = {
     type: ItemTypes.label,
     width: 3,
     height: 1,
-    config: { primary: 'New Label' },
+    primaryText: 'Primary Text',
+    secondaryText: 'Secondary Text',
   };
 
   const [{ isDragging }, ref] = useDrag({ item, collect });

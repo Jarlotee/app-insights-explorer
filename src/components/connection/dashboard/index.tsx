@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConnectionDashboard: FunctionComponent = () => {
   const classes = useStyles();
   const connection = useConnection();
-  const { dashboard, onDrop, onResize, onSave } = useDashboard(connection ? connection.name : '');
+  const { dashboard, onDrop, onEdit, onSave } = useDashboard(connection ? connection.name : '');
 
-  const body = <ConnectionDashboardContainerEdit dashboard={dashboard} onDrop={onDrop} onResize={onResize} />;
+  const body = <ConnectionDashboardContainerEdit dashboard={dashboard} onDrop={onDrop} onEdit={onEdit} />;
 
   return (
     <div className={classes.root}>

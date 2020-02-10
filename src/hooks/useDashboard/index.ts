@@ -56,7 +56,7 @@ const useDashboard = (connectionName: string) => {
     }
   };
 
-  const onResize = (_item: DashboardItem) => {
+  const onEdit = (_item: DashboardItem) => {
     const item = JSON.parse(JSON.stringify(_item));
 
     item.positions = calculatePositions(item, item.anchor);
@@ -92,7 +92,7 @@ const useDashboard = (connectionName: string) => {
     setDashboard(dashboard);
   }, [connectionName]);
 
-  return { dashboard, onDrop, onResize, onSave };
+  return { dashboard, onDrop, onEdit, onSave };
 };
 
 export default useDashboard;

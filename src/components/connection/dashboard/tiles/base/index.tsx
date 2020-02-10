@@ -2,10 +2,12 @@ import { FunctionComponent, CSSProperties, useRef } from 'react';
 
 import classnames from 'classnames';
 
+import { DragSourceMonitor, useDrag } from 'react-dnd';
+
 import { Paper, makeStyles, Theme } from '@material-ui/core';
 
 import { DashboardItem } from '../../../../../models';
-import { DragSourceMonitor, useDrag } from 'react-dnd';
+
 import useResize from '../../../../../hooks/useResize';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,16 +24,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   dragging: {
     display: 'none !important',
   },
-  icon: {
+  edit: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    fontSize: '16px',
+    height: '14px',
+    margin: theme.spacing(-0.5, 0.5),
+    cursor: 'pointer',
+    display: 'none',
+    ['$root:hover &']: {
+      display: 'block',
+    },
+  },
+  resize: {
     position: 'absolute',
     right: 0,
     bottom: 0,
     width: '14px',
     height: '14px',
-    margin: theme.spacing(0.75),
+    margin: theme.spacing(0.5),
     borderRight: '2px solid #1c2733',
     borderBottom: '2px solid #1c2733',
-    cursor: 'grab'
+    cursor: 'grab',
   },
 }));
 
@@ -40,7 +55,8 @@ type ConnectionDashboardTileBaseProps = {
   item: DashboardItem;
   row: number;
   column: number;
-  onResize: (item: DashboardItem) => void;
+  onEdit: (item: DashboardItem) => void;
+  onItemEdit: () => void;
 };
 
 const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBaseProps> = ({
@@ -49,20 +65,20 @@ const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBase
   item,
   row,
   column,
-  onResize,
+  onEdit,
+  onItemEdit,
 }) => {
   const classes = useStyles();
   const resizeRef = useRef<HTMLDivElement>();
 
   const onDragEnd = final => {
-    const newItem = JSON.parse(JSON.stringify(item));
     const width = item.width + final.width;
     const height = item.height + final.height;
 
-    newItem.width = width > 0 ? width : 1;
-    newItem.height = height > 0 ? height : 1;
+    item.width = width > 0 ? width : 1;
+    item.height = height > 0 ? height : 1;
 
-    onResize(newItem);
+    onEdit(item);
   };
 
   const offset = useResize(resizeRef, onDragEnd);
@@ -88,7 +104,10 @@ const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBase
       <Paper ref={ref} className={classNames}>
         {children}
       </Paper>
-      <div ref={resizeRef} className={classes.icon} />
+      <div className={classes.edit} title="edit" onClick={onItemEdit}>
+        ...
+      </div>
+      <div ref={resizeRef} title="resize" className={classes.resize} />
     </div>
   );
 };

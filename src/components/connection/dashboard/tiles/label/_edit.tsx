@@ -1,0 +1,90 @@
+import { FunctionComponent, useRef, FormEvent } from 'react';
+import { createPortal } from 'react-dom';
+
+import { Drawer, TextField, makeStyles, Theme, Typography, Button } from '@material-ui/core';
+
+import usePortal from '../../../../../hooks/usePortal';
+
+import { DashboardItem, DashboardLabelItem } from '../../../../../models';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+    minWidth: '300px',
+  },
+  header: {
+    marginBottom: theme.spacing(2),
+  },
+  field: {
+    width: '100%',
+    margin: theme.spacing(0.5, 0),
+  },
+  button: {
+    margin: theme.spacing(3, 0, 0),
+    alignSelf: 'flex-end',
+  },
+}));
+
+type ConnectionDashboardLabelTileEditProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  item: DashboardLabelItem;
+  onEdit: (item: DashboardItem) => void;
+};
+
+const ConnectionDashboardLabelTileEdit: FunctionComponent<ConnectionDashboardLabelTileEditProps> = ({
+  isOpen,
+  onClose,
+  item,
+  onEdit,
+}) => {
+  const classes = useStyles();
+  const root = usePortal();
+  const primaryTextRef = useRef<HTMLFormElement>(null);
+  const secondaryTextRef = useRef<HTMLFormElement>(null);
+
+  if (!root) {
+    return null;
+  }
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    item.primaryText = primaryTextRef.current.value;
+    item.secondaryText = secondaryTextRef.current.value;
+
+    onEdit(item);
+    onClose();
+  };
+
+  const element = (
+    <Drawer anchor="right" open={isOpen} onClose={onClose}>
+      <form className={classes.form} onSubmit={onSubmit}>
+        <Typography variant="h5">Edit Label</Typography>
+        <TextField
+          inputRef={primaryTextRef}
+          className={classes.field}
+          defaultValue={item.primaryText}
+          label="Primary Text"
+          required={true}
+        />
+        <TextField
+          inputRef={secondaryTextRef}
+          className={classes.field}
+          defaultValue={item.secondaryText}
+          label="Secondary Text"
+          required={false}
+        />
+        <Button className={classes.button} variant="outlined" color="primary" type="submit">
+          Save
+        </Button>
+      </form>
+    </Drawer>
+  );
+
+  return createPortal(element, root);
+};
+
+export default ConnectionDashboardLabelTileEdit;

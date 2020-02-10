@@ -34,5 +34,9 @@ export interface DashboardItem {
   type: string;
   width: number;
   height: number;
-  config: Record<string, string>;
+}
+
+export interface DashboardLabelItem extends DashboardItem {
+  primaryText: string;
+  secondaryText?: string;
 }

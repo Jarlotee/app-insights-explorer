@@ -6,7 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Theme, makeStyles } from '@material-ui/core';
 
 import ConnectionDashboardPlaceholder from './_placeholder';
-import { Dashboard, DashboardItem } from '../../../models';
+import { Dashboard, DashboardItem, DashboardLabelItem } from '../../../models';
 import ConnectionDashboardTileDrawer from './_tile-drawer';
 import { ItemTypes } from './_constants';
 import DashboardLabelTile from './tiles/label';
@@ -34,13 +34,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 type ConnectionDashboardContainerEditProps = {
   dashboard: Dashboard | undefined;
   onDrop: (item: DashboardItem, anchor: number) => void;
-  onResize: (item: DashboardItem) => void;
+  onEdit: (item: DashboardItem) => void;
 };
 
 const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardContainerEditProps> = ({
   dashboard,
   onDrop,
-  onResize
+  onEdit,
 }) => {
   const classes = useStyles();
   const [editingLayout, setEdditingLayout] = useState();
@@ -74,7 +74,15 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
 
         switch (item.type) {
           case ItemTypes.label:
-            return <DashboardLabelTile key={placeholders.length + 1 + i} item={item} row={row} column={column} onResize={onResize} />;
+            return (
+              <DashboardLabelTile
+                key={placeholders.length + 1 + i}
+                item={item as DashboardLabelItem}
+                row={row}
+                column={column}
+                onEdit={onEdit}
+              />
+            );
           default:
             return <div>Unmapped Items [{item.type}]</div>;
         }
