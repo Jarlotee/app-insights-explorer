@@ -30,11 +30,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type ConnectionDashboardToolbarProps = {
   isEditing: boolean;
+  onEdit: () => void;
   onSave: () => void;
 };
 
 const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarProps> = ({
   isEditing,
+  onEdit,
   onSave,
 }) => {
   const classes = useStyles();
@@ -77,6 +79,7 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
         color="primary"
         className={classes.menuButton}
         startIcon={<EditIcon />}
+        onClick={onEdit}
       >
         Edit
       </Button>

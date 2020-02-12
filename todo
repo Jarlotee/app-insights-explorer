@@ -1,6 +1,8 @@
-* add view layout
-* add chart type
+* add query type (table and chart)
+* add timeseries chart
 * add refresh
-* add upload
-* add download
+* add dashboard upload
+* add dashboard download
+* add template outlines for screen sizes
+* add full screen css and stop worrying about calc offsets for chrome
 

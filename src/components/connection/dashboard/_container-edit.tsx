@@ -6,10 +6,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Theme, makeStyles } from '@material-ui/core';
 
 import ConnectionDashboardPlaceholder from './_placeholder';
-import { Dashboard, DashboardItem, DashboardLabelItem } from '../../../models';
+import { Dashboard, DashboardItem, DashboardCoordinate } from '../../../models';
 import ConnectionDashboardTileDrawer from './_tile-drawer';
-import { ItemTypes } from './_constants';
-import DashboardLabelTile from './tiles/label';
+import mapItemToTile from './_tile-mapper';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,8 +23,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'grid',
     gridGap: '4px',
     gridAutoFlow: 'dense',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 60px))',
-    gridAutoRows: 'minmax(60px, 60px)',
+    gridTemplateColumns: 'repeat(auto-fill, 60px)',
+    gridTemplateRows: 'repeat(auto-fill, 60px)',
     width: 3840 - 64,
     height: 2160 - 236,
   },
@@ -33,14 +32,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type ConnectionDashboardContainerEditProps = {
   dashboard: Dashboard | undefined;
-  onDrop: (item: DashboardItem, anchor: number) => void;
+  onDrop: (item: DashboardItem, anchor: DashboardCoordinate) => void;
   onEdit: (item: DashboardItem) => void;
+  onDelete: (item: DashboardItem) => void;
 };
 
 const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardContainerEditProps> = ({
   dashboard,
   onDrop,
   onEdit,
+  onDelete,
 }) => {
   const classes = useStyles();
   const [editingLayout, setEdditingLayout] = useState();
@@ -68,24 +69,7 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
       });
 
       const tiles = dashboard.items.map((item, i) => {
-        const index = item.anchor;
-        const row = Math.ceil(index / 59);
-        const column = index - (row - 1) * 59;
-
-        switch (item.type) {
-          case ItemTypes.label:
-            return (
-              <DashboardLabelTile
-                key={placeholders.length + 1 + i}
-                item={item as DashboardLabelItem}
-                row={row}
-                column={column}
-                onEdit={onEdit}
-              />
-            );
-          default:
-            return <div>Unmapped Items [{item.type}]</div>;
-        }
+        return mapItemToTile(item, placeholders.length + 1 + i, onEdit, onDelete);
       });
 
       setEdditingLayout([...placeholders, ...tiles]);

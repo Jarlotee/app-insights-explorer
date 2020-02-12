@@ -27,10 +27,15 @@ export interface Dashboard {
   items: DashboardItem[];
 }
 
+export interface DashboardCoordinate {
+  row: number;
+  column: number;
+}
+
 export interface DashboardItem {
   id?: Symbol;
-  anchor?: number;
-  positions?: number[];
+  anchor?: DashboardCoordinate;
+  positions?: DashboardCoordinate[];
   type: string;
   width: number;
   height: number;

@@ -2,11 +2,12 @@ import { FunctionComponent, useState } from 'react';
 
 import { Typography, makeStyles, Theme } from '@material-ui/core';
 
-import ConnectionDashboardTileBase from '../base';
+import ConnectionDashboardTileEditBase from '../edit-base';
 
 import { DashboardItem, DashboardLabelItem } from '../../../../../models';
 
 import ConnectionDashboardLabelTileEdit from './_edit';
+import ConnectionDashboardTileBase from '../base';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -27,40 +28,47 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type DashboardLabelTileProps = {
   item: DashboardLabelItem;
-  row: number;
-  column: number;
-  onEdit: (item: DashboardItem) => void;
+  onEdit?: (item: DashboardItem) => void;
+  onDelete?: (item: DashboardItem) => void;
 };
 
-const DashboardLabelTile: FunctionComponent<DashboardLabelTileProps> = ({
-  item,
-  row,
-  column,
-  onEdit,
-}) => {
+const DashboardLabelTile: FunctionComponent<DashboardLabelTileProps> = ({ item, onEdit, onDelete }) => {
   const classes = useStyles();
   const [isItemEditing, setIsItemEditing] = useState(false);
 
   const handleOnEdit = () => setIsItemEditing(value => !value);
 
+  const content = (
+    <>
+      <Typography className={classes.primary}>{item.primaryText}</Typography>
+      <Typography className={classes.secondary}>{item.secondaryText}</Typography>
+    </>
+  );
+
+  if (!onEdit) {
+    return (
+      <ConnectionDashboardTileBase className={classes.root} item={item}>
+        {content}
+      </ConnectionDashboardTileBase>
+    );
+  }
+
   return (
     <>
-      <ConnectionDashboardTileBase
+      <ConnectionDashboardTileEditBase
         className={classes.root}
         item={item}
-        row={row}
-        column={column}
         onEdit={onEdit}
         onItemEdit={handleOnEdit}
       >
-        <Typography className={classes.primary}>{item.primaryText}</Typography>
-        <Typography className={classes.secondary}>{item.secondaryText}</Typography>
-      </ConnectionDashboardTileBase>
+        {content}
+      </ConnectionDashboardTileEditBase>
       <ConnectionDashboardLabelTileEdit
         isOpen={isItemEditing}
         onClose={handleOnEdit}
         item={item}
         onEdit={onEdit}
+        onDelete={onDelete}
       />
     </>
   );

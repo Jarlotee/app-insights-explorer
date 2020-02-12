@@ -7,6 +7,7 @@ import ConnectionDashboardContainerEdit from './_container-edit';
 
 import useConnection from '../../../hooks/useConnection';
 import useDashboard from '../../../hooks/useDashboard';
+import ConnectionDashboardContainerDisplay from './_container-display';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,22 +25,43 @@ const ConnectionDashboard: FunctionComponent = () => {
   const classes = useStyles();
   const connection = useConnection();
 
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const { dashboard, onDrop, onEdit, onSave } = useDashboard(connection ? connection.name : '');
+  const { dashboard, onDrop, onEdit, onSave, onDelete } = useDashboard(
+    connection ? connection.name : ''
+  );
 
   const handleOnSave = () => {
     setIsEditing(false);
     onSave();
   };
 
-  const body = (
-    <ConnectionDashboardContainerEdit dashboard={dashboard} onDrop={onDrop} onEdit={onEdit} />
-  );
+  const handleOnEdit = () => {
+    setIsEditing(true);
+  };
+
+  let body = null;
+
+  if (isEditing) {
+    body = (
+      <ConnectionDashboardContainerEdit
+        dashboard={dashboard}
+        onDrop={onDrop}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    );
+  } else {
+    body = <ConnectionDashboardContainerDisplay dashboard={dashboard} />;
+  }
 
   return (
     <div className={classes.root}>
-      <ConnectionDashboardToolbar isEditing={isEditing} onSave={handleOnSave} />
+      <ConnectionDashboardToolbar
+        isEditing={isEditing}
+        onEdit={handleOnEdit}
+        onSave={handleOnSave}
+      />
       {body}
     </div>
   );

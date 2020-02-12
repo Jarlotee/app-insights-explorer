@@ -4,21 +4,14 @@ import { v4 } from 'uuid';
 
 import { getDashboard, saveDashboard } from '../../gateways/settings';
 
-import { Dashboard, DashboardItem } from '../../models';
+import { Dashboard, DashboardItem, DashboardCoordinate } from '../../models';
 
-const calculatePositions = (item: DashboardItem, anchor: number) => {
-  const positions = [];
+const calculatePositions = (item: DashboardItem, anchor: DashboardCoordinate) => {
+  const positions: DashboardCoordinate[] = [];
 
-  positions.push(anchor);
-
-  for (let i = 2; i <= item.width; i++) {
-    positions.push(anchor + i - 1);
-  }
-
-  for (let i = 2; i <= item.height; i++) {
-    const rowBonus = anchor - 1 + (i - 1) * 59;
-    for (let i = 1; i <= item.width; i++) {
-      positions.push(rowBonus + i);
+  for (let i = anchor.row; i <= anchor.row + item.height - 1; i++) {
+    for (let j = anchor.column; j <= anchor.column + item.width - 1; j++) {
+      positions.push({ column: i, row: j });
     }
   }
 
@@ -28,17 +21,26 @@ const calculatePositions = (item: DashboardItem, anchor: number) => {
 const useDashboard = (connectionName: string) => {
   const [dashboard, setDashboard] = useState<Dashboard>();
 
-  const onDrop = (_item: DashboardItem, anchor: number) => {
-    const item = JSON.parse(JSON.stringify(_item));
+  const onDrop = (_item: DashboardItem, anchor: DashboardCoordinate) => {
+    const item = JSON.parse(JSON.stringify(_item)) as DashboardItem;
 
     item.anchor = anchor;
     item.positions = calculatePositions(item, anchor);
 
-    const collision = dashboard.items
-      .filter(i => i.id !== item.id)
-      .filter(i => !!item.positions?.filter(i2 => i.positions.includes(i2)).length);
+    const collisions = dashboard.items
+      .filter(existing => existing.id !== item.id)
+      .filter(existing => {
+        for (const existing_position of existing.positions) {
+          for (const item_position of item.positions) {
+            return (
+              existing_position.row == item_position.row &&
+              existing_position.column == item_position.column
+            );
+          }
+        }
+      });
 
-    if (!collision.length) {
+    if (!collisions.length) {
       const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;
       if (!item.id) {
         item.id = v4();
@@ -67,21 +69,27 @@ const useDashboard = (connectionName: string) => {
 
     if (!collision.length) {
       const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;
-      if (!item.id) {
-        item.id = v4();
+      const index = updatedDashboard.items.findIndex(i => i.id === item.id);
+      if (index === -1) {
         updatedDashboard.items.push(item);
       } else {
-        let index = updatedDashboard.items.findIndex(i => i.id === item.id);
-        if (index === -1) {
-          updatedDashboard.items.push(item);
-        } else {
-          updatedDashboard.items.splice(index, 1, item);
-        }
+        updatedDashboard.items.splice(index, 1, item);
       }
 
       setDashboard(updatedDashboard);
     }
-  }
+  };
+
+  const onDelete = (item: DashboardItem) => {
+    const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;
+    const index = updatedDashboard.items.findIndex(i => i.id === item.id);
+
+    if (index > -1) {
+      updatedDashboard.items.splice(index, 1);
+
+      setDashboard(updatedDashboard);
+    }
+  };
 
   const onSave = () => {
     saveDashboard(connectionName, dashboard);
@@ -92,7 +100,7 @@ const useDashboard = (connectionName: string) => {
     setDashboard(dashboard);
   }, [connectionName]);
 
-  return { dashboard, onDrop, onEdit, onSave };
+  return { dashboard, onDrop, onEdit, onSave, onDelete };
 };
 
 export default useDashboard;
