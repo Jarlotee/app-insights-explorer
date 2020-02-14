@@ -40,13 +40,9 @@ const ConnectionDashboardTileBase: FunctionComponent<ConnectionDashboardTileBase
     gridRowEnd: item.anchor.row + item.height,
   };
 
-  console.log('debug item', style)
-
   return (
     <div className={classes.root} style={style}>
-      <Paper className={classNames}>
-        {children}
-      </Paper>
+      <Paper className={classNames}>{children}</Paper>
     </div>
   );
 };

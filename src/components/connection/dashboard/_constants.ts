@@ -1,4 +1,4 @@
 export const ItemTypes = {
   label: 'label',
-  chart: 'chart'
+  query: 'query'
 }

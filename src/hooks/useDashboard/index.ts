@@ -6,11 +6,11 @@ import { getDashboard, saveDashboard } from '../../gateways/settings';
 
 import { Dashboard, DashboardItem, DashboardCoordinate } from '../../models';
 
-const calculatePositions = (item: DashboardItem, anchor: DashboardCoordinate) => {
+const calculatePositions = (item: DashboardItem) => {
   const positions: DashboardCoordinate[] = [];
 
-  for (let i = anchor.row; i <= anchor.row + item.height - 1; i++) {
-    for (let j = anchor.column; j <= anchor.column + item.width - 1; j++) {
+  for (let i = item.anchor.row; i <= item.anchor.row + item.height - 1; i++) {
+    for (let j = item.anchor.column; j <= item.anchor.column + item.width - 1; j++) {
       positions.push({ column: i, row: j });
     }
   }
@@ -25,7 +25,7 @@ const useDashboard = (connectionName: string) => {
     const item = JSON.parse(JSON.stringify(_item)) as DashboardItem;
 
     item.anchor = anchor;
-    item.positions = calculatePositions(item, anchor);
+    item.positions = calculatePositions(item);
 
     const collisions = dashboard.items
       .filter(existing => existing.id !== item.id)
@@ -61,7 +61,7 @@ const useDashboard = (connectionName: string) => {
   const onEdit = (_item: DashboardItem) => {
     const item = JSON.parse(JSON.stringify(_item));
 
-    item.positions = calculatePositions(item, item.anchor);
+    item.positions = calculatePositions(item);
 
     const collision = dashboard.items
       .filter(i => i.id !== item.id)
@@ -95,12 +95,39 @@ const useDashboard = (connectionName: string) => {
     saveDashboard(connectionName, dashboard);
   };
 
+  const onPush = (_item: DashboardItem) => {
+    const item = JSON.parse(JSON.stringify(_item)) as DashboardItem;
+
+    const itemRows = dashboard.items
+      .filter(i => i.anchor.column <= _item.width)
+      .map(i => i.anchor.row + i.height - 1);
+
+    item.anchor = { column: 1, row: Math.max(...itemRows) + 1 };
+    item.positions = calculatePositions(item);
+
+    const updatedDashboard = JSON.parse(JSON.stringify(dashboard)) as Dashboard;
+    if (!item.id) {
+      item.id = v4();
+      updatedDashboard.items.push(item);
+    } else {
+      let index = updatedDashboard.items.findIndex(i => i.id === item.id);
+      if (index === -1) {
+        updatedDashboard.items.push(item);
+      } else {
+        updatedDashboard.items.splice(index, 1, item);
+      }
+    }
+
+    setDashboard(updatedDashboard);
+    saveDashboard(connectionName, updatedDashboard);
+  };
+
   useEffect(() => {
     const dashboard = getDashboard(connectionName);
     setDashboard(dashboard);
   }, [connectionName]);
 
-  return { dashboard, onDrop, onEdit, onSave, onDelete };
+  return { dashboard, onDrop, onEdit, onSave, onDelete, onPush };
 };
 
 export default useDashboard;

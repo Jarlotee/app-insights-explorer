@@ -43,8 +43,6 @@ const ConnectionDashboardContainerDisplay: FunctionComponent<ConnectionDashboard
         rows = farthestRow > rows ? farthestRow : rows;
       });
 
-      console.log('debug', columns, rows)
-
       setStyles({
         width: `${columns * 64}px`,
         height: `${rows * 64}px`,

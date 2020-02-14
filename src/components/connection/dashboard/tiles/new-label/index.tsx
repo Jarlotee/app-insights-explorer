@@ -27,8 +27,8 @@ const ConnectionDashboardTileLabel: FunctionComponent = () => {
     type: ItemTypes.label,
     width: 3,
     height: 1,
-    primaryText: 'Primary Text',
-    secondaryText: 'Secondary Text',
+    title: 'Primary Text',
+    subTitle: 'Secondary Text',
   };
 
   const [{ isDragging }, ref] = useDrag({ item, collect });

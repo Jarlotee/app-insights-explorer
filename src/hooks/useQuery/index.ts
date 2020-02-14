@@ -6,9 +6,9 @@ import { Connection, ApplicationInsightsResponse } from '../../models';
 
 import { addQueryHistory } from '../../gateways/settings';
 
-const useQuery = (connection: Connection) => {
-  const [query, setQuery] = useState<string | undefined>();
-  const [queryTimeStamp, setQueryTimeStamp] = useState<Date | undefined>();
+const useQuery = (connection: Connection, initialQuery: string = undefined) => {
+  const [query, setQuery] = useState<string | undefined>(initialQuery);
+  const [queryTimeStamp, setQueryTimeStamp] = useState<Date>(new Date());
   const [error, setError] = useState<string | undefined>();
   const [results, setResults] = useState<ApplicationInsightsResponse | undefined>();
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -54,7 +54,7 @@ const useQuery = (connection: Connection) => {
     handle();
   }, [connection, query, queryTimeStamp]);
 
-  return { query, setQuery: handleQueryChange, error, isRunning, results };
+  return { query, setQuery: handleQueryChange, error, isRunning, results, queryTimeStamp };
 };
 
 export default useQuery;

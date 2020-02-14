@@ -40,8 +40,8 @@ const DashboardLabelTile: FunctionComponent<DashboardLabelTileProps> = ({ item, 
 
   const content = (
     <>
-      <Typography className={classes.primary}>{item.primaryText}</Typography>
-      <Typography className={classes.secondary}>{item.secondaryText}</Typography>
+      <Typography className={classes.primary}>{item.title}</Typography>
+      <Typography className={classes.secondary}>{item.subTitle}</Typography>
     </>
   );
 

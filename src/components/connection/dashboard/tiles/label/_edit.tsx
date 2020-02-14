@@ -74,8 +74,8 @@ const ConnectionDashboardLabelTileEdit: FunctionComponent<ConnectionDashboardLab
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    item.primaryText = primaryTextRef.current.value;
-    item.secondaryText = secondaryTextRef.current.value;
+    item.title = primaryTextRef.current.value;
+    item.subTitle = secondaryTextRef.current.value;
 
     onEdit(item);
     onClose();
@@ -96,14 +96,14 @@ const ConnectionDashboardLabelTileEdit: FunctionComponent<ConnectionDashboardLab
         <TextField
           inputRef={primaryTextRef}
           className={classes.field}
-          defaultValue={item.primaryText}
+          defaultValue={item.title}
           label="Primary Text"
           required={true}
         />
         <TextField
           inputRef={secondaryTextRef}
           className={classes.field}
-          defaultValue={item.secondaryText}
+          defaultValue={item.subTitle}
           label="Secondary Text"
           required={false}
         />

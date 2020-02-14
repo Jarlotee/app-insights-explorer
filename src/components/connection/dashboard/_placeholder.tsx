@@ -21,7 +21,7 @@ const collect = (monitor: DropTargetMonitor) => ({
   highlighted: monitor.isOver() && monitor.canDrop(),
 });
 
-const accept = [ItemTypes.label, ItemTypes.chart];
+const accept = [ItemTypes.label, ItemTypes.query];
 
 type ConnectionDashboardPlaceholderProps = {
   index: number;

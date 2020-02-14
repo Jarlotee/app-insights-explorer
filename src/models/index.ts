@@ -42,6 +42,12 @@ export interface DashboardItem {
 }
 
 export interface DashboardLabelItem extends DashboardItem {
-  primaryText: string;
-  secondaryText?: string;
+  title: string;
+  subTitle?: string;
+}
+
+export interface DashboardQueryItem extends DashboardItem {
+  title: string;
+  query: string;
+  lastRefresh?: string;
 }

@@ -31,6 +31,7 @@ const useResize = (
 
   useEffect(() => {
     const handleMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
       setStartPosition({ x: event.x, y: event.y });
       setIsDragging(true);
     };

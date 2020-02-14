@@ -6,8 +6,8 @@ import useConnection from '../../../hooks/useConnection';
 import useQuery from '../../../hooks/useQuery';
 
 import ConnectionQueryForm from './_form';
-import ConnectionQueryTable from './_table';
-import ConnectionQueryPie from './_pie';
+import useDashboard from '../../../hooks/useDashboard';
+import ConnectionResults from '../results';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,20 +23,14 @@ const ConnectionQuery: FunctionComponent = () => {
   const classes = useStyles();
   const connection = useConnection();
 
+  const { onPush } = useDashboard(connection ? connection.name : '');
+
   const { query, setQuery, error, isRunning, results } = useQuery(connection);
-
-  let view = null;
-
-  if (query && query.match(/\|\s+render\s+piechart\s*$/i)) {
-    view = <ConnectionQueryPie results={results} />
-  } else {
-    view = <ConnectionQueryTable results={results} />;
-  }
 
   return (
     <div className={classes.root}>
-      <ConnectionQueryForm setQuery={setQuery} error={error} isRunning={isRunning} />
-      {view}
+      <ConnectionQueryForm setQuery={setQuery} query={query} error={error} isRunning={isRunning} onDashboardPush={onPush} />
+      <ConnectionResults query={query} results={results} />
     </div>
   );
 };
