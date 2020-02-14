@@ -8,9 +8,15 @@ import { addQueryHistory } from '../../gateways/settings';
 
 const useQuery = (connection: Connection) => {
   const [query, setQuery] = useState<string | undefined>();
+  const [queryTimeStamp, setQueryTimeStamp] = useState<Date | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [results, setResults] = useState<ApplicationInsightsResponse | undefined>();
   const [isRunning, setIsRunning] = useState<boolean>(false);
+
+  const handleQueryChange = (query: string) => {
+    setQuery(query);
+    setQueryTimeStamp(new Date());
+  };
 
   useEffect(() => {
     const handle = async () => {
@@ -46,9 +52,9 @@ const useQuery = (connection: Connection) => {
     };
 
     handle();
-  }, [connection, query]);
+  }, [connection, query, queryTimeStamp]);
 
-  return { query, setQuery, error, isRunning, results };
+  return { query, setQuery: handleQueryChange, error, isRunning, results };
 };
 
 export default useQuery;
