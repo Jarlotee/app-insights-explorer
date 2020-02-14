@@ -83,7 +83,7 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
       >
         Edit
       </Button>
-      <Button
+      {/* <Button
         size="small"
         variant="outlined"
         color="default"
@@ -100,13 +100,14 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
         startIcon={<GetAppIcon />}
       >
         Download
-      </Button>
+      </Button> */}
       <Button
         size="small"
         variant="outlined"
         color="default"
         className={classes.menuButton}
         startIcon={<RefreshIcon />}
+        onClick={disgardChanges}
       >
         Refresh
       </Button>
