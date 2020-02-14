@@ -8,11 +8,11 @@ import ConnectionDashboardTileEditBase from '../edit-base';
 
 import { DashboardItem, DashboardQueryItem } from '../../../../../models';
 
-// import ConnectionDashboardLabelTileEdit from './_edit';
 import ConnectionDashboardTileBase from '../base';
 import ConnectionResults from '../../../results';
 import useConnection from '../../../../../hooks/useConnection';
 import useQuery from '../../../../../hooks/useQuery';
+import ConnectionDashboardQueryTileEdit from './_edit';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     padding: theme.spacing(1, 2),
     position: 'relative',
-    overflow: 'scroll'
+    overflow: 'scroll',
   },
   title: {
     fontSize: '1.25rem',
@@ -110,13 +110,13 @@ const DashboardQueryTile: FunctionComponent<DashboardLabelTileProps> = ({
       >
         {content}
       </ConnectionDashboardTileEditBase>
-      {/* <ConnectionDashboardLabelTileEdit
+      <ConnectionDashboardQueryTileEdit
         isOpen={isItemEditing}
         onClose={handleOnEdit}
         item={item}
         onEdit={onEdit}
         onDelete={onDelete}
-      /> */}
+      />
     </>
   );
 };
