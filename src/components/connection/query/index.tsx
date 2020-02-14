@@ -13,9 +13,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    position: 'relative',
+    flexGrow: 1,
+    minHeight: 0,
     padding: theme.spacing(2, 0),
+  },
+  results: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    margin: theme.spacing(1, 0),
+    overflow: 'scroll'
   },
 }));
 
@@ -29,8 +36,16 @@ const ConnectionQuery: FunctionComponent = () => {
 
   return (
     <div className={classes.root}>
-      <ConnectionQueryForm setQuery={setQuery} query={query} error={error} isRunning={isRunning} onDashboardPush={onPush} />
-      <ConnectionResults query={query} results={results} />
+      <ConnectionQueryForm
+        setQuery={setQuery}
+        query={query}
+        error={error}
+        isRunning={isRunning}
+        onDashboardPush={onPush}
+      />
+      <div className={classes.results}>
+        <ConnectionResults query={query} results={results} />
+      </div>
     </div>
   );
 };

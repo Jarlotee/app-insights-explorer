@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     backgroundColor: '#3e464f',
   },
+  error: {
+    color: 'red'
+  }
 }));
 
 type DashboardLabelTileProps = {
@@ -61,7 +64,7 @@ const DashboardQueryTile: FunctionComponent<DashboardLabelTileProps> = ({
   const { error, isRunning, results, queryTimeStamp } = useQuery(connection, item.query);
 
   const handleOnEdit = () => setIsItemEditing(value => !value);
-
+console.log('heh', isRunning, error, results);
   let content = null;
 
   if (isRunning) {
@@ -76,7 +79,7 @@ const DashboardQueryTile: FunctionComponent<DashboardLabelTileProps> = ({
       <>
         <Typography className={classes.title}>{item.title}</Typography>
         <div className={classes.divider} />
-        <Typography>{error}</Typography>
+        <Typography className={classes.error}>{error}</Typography>
       </>
     );
   } else {

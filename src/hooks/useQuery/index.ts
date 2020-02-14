@@ -6,8 +6,8 @@ import { Connection, ApplicationInsightsResponse } from '../../models';
 
 import { addQueryHistory } from '../../gateways/settings';
 
-const useQuery = (connection: Connection, initialQuery: string = undefined) => {
-  const [query, setQuery] = useState<string | undefined>(initialQuery);
+const useQuery = (connection: Connection, overrideQuery: string = undefined) => {
+  const [query, setQuery] = useState<string | undefined>(overrideQuery);
   const [queryTimeStamp, setQueryTimeStamp] = useState<Date>(new Date());
   const [error, setError] = useState<string | undefined>();
   const [results, setResults] = useState<ApplicationInsightsResponse | undefined>();
@@ -17,6 +17,12 @@ const useQuery = (connection: Connection, initialQuery: string = undefined) => {
     setQuery(query);
     setQueryTimeStamp(new Date());
   };
+
+  useEffect(() => {
+    if (overrideQuery && query !== overrideQuery) {
+      handleQueryChange(overrideQuery);
+    }
+  }, [overrideQuery]);
 
   useEffect(() => {
     const handle = async () => {
@@ -32,10 +38,14 @@ const useQuery = (connection: Connection, initialQuery: string = undefined) => {
       try {
         setIsRunning(true);
         setError(undefined);
+        setResults(undefined);
+
         const response = await runQuery(connection.id, connection.key, query);
         if (response.ok) {
           setResults(await response.json());
-          addQueryHistory(connection.name, query);
+          if (!overrideQuery) {
+            addQueryHistory(connection.name, query);
+          }
         } else {
           const json = await response.json();
           let error = json.error;
