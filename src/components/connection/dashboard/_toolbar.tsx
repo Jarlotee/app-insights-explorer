@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { Toolbar, Button, Theme, makeStyles } from '@material-ui/core';
 
@@ -8,6 +8,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import RefreshIcon from '@material-ui/icons/Refresh';
+
+import ConnectionDashboardUploadDrawer from './_upload-drawer';
+
+import { Dashboard } from '../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {
@@ -29,21 +33,29 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type ConnectionDashboardToolbarProps = {
+  dashboard: Dashboard | undefined;
   isEditing: boolean;
   onEdit: () => void;
   onSave: () => void;
+  onUpload: (encodedJson: string) => string | undefined;
 };
 
 const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarProps> = ({
+  dashboard,
   isEditing,
   onEdit,
   onSave,
+  onUpload
 }) => {
   const classes = useStyles();
+  const [isUploadDrawerOpen, setIsUploadDrawerOpen] = useState(false);
 
-  const disgardChanges = () => {
+  const handleRefresh = () => {
     window.location.reload();
   };
+
+  const handleUploadDrawerClose = () => setIsUploadDrawerOpen(false);
+  const handleUploadClick = () => setIsUploadDrawerOpen(true);
 
   if (isEditing) {
     return (
@@ -63,10 +75,25 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
           variant="outlined"
           className={classes.menuButton}
           startIcon={<DeleteIcon />}
-          onClick={disgardChanges}
+          onClick={handleRefresh}
         >
           Disgard Changes
         </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          color="default"
+          className={classes.menuButton}
+          startIcon={<PublishIcon />}
+          onClick={handleUploadClick}
+        >
+          Upload
+        </Button>
+        <ConnectionDashboardUploadDrawer
+          isOpen={isUploadDrawerOpen}
+          onClose={handleUploadDrawerClose}
+          onUpload={onUpload}
+        />
       </Toolbar>
     );
   }
@@ -83,14 +110,15 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
       >
         Edit
       </Button>
-      {/* <Button
+      <Button
         size="small"
         variant="outlined"
         color="default"
         className={classes.menuButton}
-        startIcon={<PublishIcon />}
+        startIcon={<RefreshIcon />}
+        onClick={handleRefresh}
       >
-        Upload
+        Refresh
       </Button>
       <Button
         size="small"
@@ -98,18 +126,12 @@ const ConnectionDashboardToolbar: FunctionComponent<ConnectionDashboardToolbarPr
         color="default"
         className={classes.menuButton}
         startIcon={<GetAppIcon />}
+        href={`data:text/plain;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(dashboard || {})
+        )}`}
+        download="dashboard.json"
       >
         Download
-      </Button> */}
-      <Button
-        size="small"
-        variant="outlined"
-        color="default"
-        className={classes.menuButton}
-        startIcon={<RefreshIcon />}
-        onClick={disgardChanges}
-      >
-        Refresh
       </Button>
     </Toolbar>
   );

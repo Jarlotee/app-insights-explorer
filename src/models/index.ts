@@ -33,7 +33,7 @@ export interface DashboardCoordinate {
 }
 
 export interface DashboardItem {
-  id?: Symbol;
+  id?: string;
   anchor?: DashboardCoordinate;
   positions?: DashboardCoordinate[];
   type: string;

@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { getDashboard, saveDashboard } from '../../gateways/settings';
 
 import { Dashboard, DashboardItem, DashboardCoordinate } from '../../models';
+import { validateDashboard } from './_validator';
 
 const calculatePositions = (item: DashboardItem) => {
   const positions: DashboardCoordinate[] = [];
@@ -122,12 +123,22 @@ const useDashboard = (connectionName: string) => {
     saveDashboard(connectionName, updatedDashboard);
   };
 
+  const onUpload = (encodedJson: string) => {
+    const error = validateDashboard(encodedJson);
+
+    if(error){
+      return error;
+    }
+
+    setDashboard(JSON.parse(encodedJson));
+  }
+
   useEffect(() => {
     const dashboard = getDashboard(connectionName);
     setDashboard(dashboard);
   }, [connectionName]);
 
-  return { dashboard, onDrop, onEdit, onSave, onDelete, onPush };
+  return { dashboard, onDrop, onEdit, onSave, onDelete, onPush, onUpload };
 };
 
 export default useDashboard;

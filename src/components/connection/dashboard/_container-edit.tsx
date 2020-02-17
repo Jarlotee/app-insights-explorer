@@ -48,8 +48,6 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
 
   useEffect(() => {
     if (dashboard) {
-      console.log('dashboard', dashboard);
-
       const positions = new Array(59 * 30).fill(undefined);
 
       const placeholders = positions.map((_, i) => {

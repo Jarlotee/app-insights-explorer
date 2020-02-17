@@ -27,7 +27,7 @@ const ConnectionDashboard: FunctionComponent = () => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const { dashboard, onDrop, onEdit, onSave, onDelete } = useDashboard(
+  const { dashboard, onDrop, onEdit, onSave, onDelete, onUpload } = useDashboard(
     connection ? connection.name : ''
   );
 
@@ -58,9 +58,11 @@ const ConnectionDashboard: FunctionComponent = () => {
   return (
     <div className={classes.root}>
       <ConnectionDashboardToolbar
+        dashboard={dashboard}
         isEditing={isEditing}
         onEdit={handleOnEdit}
         onSave={handleOnSave}
+        onUpload={onUpload}
       />
       {body}
     </div>
