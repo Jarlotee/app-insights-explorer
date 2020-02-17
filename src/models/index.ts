@@ -22,3 +22,32 @@ export interface ApplicationInsightTableColumn {
   name: string;
   type: string;
 }
+
+export interface Dashboard {
+  items: DashboardItem[];
+}
+
+export interface DashboardCoordinate {
+  row: number;
+  column: number;
+}
+
+export interface DashboardItem {
+  id?: string;
+  anchor?: DashboardCoordinate;
+  positions?: DashboardCoordinate[];
+  type: string;
+  width: number;
+  height: number;
+}
+
+export interface DashboardLabelItem extends DashboardItem {
+  title: string;
+  subTitle?: string;
+}
+
+export interface DashboardQueryItem extends DashboardItem {
+  title: string;
+  query: string;
+  lastRefresh?: string;
+}

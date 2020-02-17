@@ -1,22 +1,29 @@
 import { FunctionComponent, useState } from 'react';
+
+import dynamic from 'next/dynamic';
+
 import { Tab, Tabs } from '@material-ui/core';
 
 import BreadcrumbNav from '../../breadcrumb-nav';
-import ConnectionQuery from '../query';
 
 const ConnectionRoot: FunctionComponent = () => {
-  const [activeTab, setActiveTab] = useState('query');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const handleTabChange = (_event, value) => setActiveTab(value);
 
-  const body = activeTab === 'query' ? <ConnectionQuery /> : null;
+  const ConnectionQuery = dynamic(() => import('../query'));
+  const ConnectionDashboard = dynamic(() => import('../dashboard'));
+
+  const handleOnPin = () => setActiveTab('dashboard');
+
+  const body = activeTab === 'query' ? <ConnectionQuery onPin={handleOnPin} /> : <ConnectionDashboard />;
 
   return (
     <>
       <BreadcrumbNav />
       <Tabs value={activeTab} onChange={handleTabChange} indicatorColor="primary">
-        <Tab value="query" label="Query" />
         <Tab value="dashboard" label="Dashboard" />
+        <Tab value="query" label="Query" />
       </Tabs>
       {body}
     </>

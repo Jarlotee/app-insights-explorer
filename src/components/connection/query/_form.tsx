@@ -6,30 +6,48 @@ import HistoryIcon from '@material-ui/icons/History';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import LanguageIcon from '@material-ui/icons/Language';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import PinDropIcon from '@material-ui/icons/PinDrop';
 
 import ConnectionQueryHistory from './_history';
+import { DashboardItem, DashboardQueryItem } from '../../../models';
+import { ItemTypes } from '../dashboard/_constants';
 
 const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {
     minWidth: theme.spacing(12),
     marginRight: theme.spacing(1),
+    '& .MuiSvgIcon-root': {
+      fontSize: '15px',
+      marginBottom: '2px',
+    },
   },
   menuButtonEnd: {
     minWidth: theme.spacing(12),
     marginLeft: 'auto',
-  }
+    marginRight: theme.spacing(1),
+    '& .MuiSvgIcon-root': {
+      fontSize: '15px',
+      marginBottom: '2px',
+    },
+  },
 }));
 
 type ConnectionQueryFormProps = {
+  query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   error: string;
   isRunning: boolean;
+  onDashboardPush: (item: DashboardItem) => void;
+  onPin: () => void;
 };
 
 const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
+  query,
   setQuery,
   error,
   isRunning,
+  onDashboardPush,
+  onPin
 }) => {
   const classes = useStyles();
   const queryRef = useRef<HTMLInputElement>();
@@ -43,6 +61,17 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
       .replace(/\s{2,}/g, ' ')
       .replace(/\s*\|/g, '\n|')
       .trim();
+  };
+  const handlePinClick = () => {
+    const item: DashboardQueryItem = {
+      type: ItemTypes.query,
+      title: 'New Query',
+      query: query,
+      width: 7,
+      height: 5,
+    };
+    onDashboardPush(item);
+    onPin();
   };
 
   return (
@@ -85,8 +114,17 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
         <Button
           size="small"
           variant="outlined"
-          startIcon={<LanguageIcon />}
+          startIcon={<PinDropIcon />}
           className={classes.menuButtonEnd}
+          disabled={!query || isRunning || !!error}
+          onClick={handlePinClick}
+        >
+          Pin
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<LanguageIcon />}
           href="https://docs.microsoft.com/en-us/azure/kusto/query/"
           rel="noopener"
           target="_blank"

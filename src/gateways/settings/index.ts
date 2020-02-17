@@ -1,4 +1,4 @@
-import { Connection, QueryHistoryItem } from '../../models';
+import { Connection, QueryHistoryItem, Dashboard } from '../../models';
 
 export const saveConnection = (connection: Connection) => {
   const { name } = connection;
@@ -56,4 +56,16 @@ export const getQueryHistory = (connectionName: string) => {
   const item = JSON.parse(localStorage.getItem('history') || '{}');
 
   return item[connectionName] || [];
+};
+
+export const getDashboard = (connectionName: string) => {
+  const item = JSON.parse(localStorage.getItem('dashboards') || '{}');
+
+  return item[connectionName] as Dashboard || { items: [] } as Dashboard;
+};
+
+export const saveDashboard = (connectionName: string, dashboard: Dashboard) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+  dashboards[connectionName] = dashboard;
+  localStorage.setItem('dashboards', JSON.stringify(dashboards));
 };

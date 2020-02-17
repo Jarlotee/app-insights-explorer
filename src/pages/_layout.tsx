@@ -4,11 +4,21 @@ import { SnackbarProvider } from 'notistack';
 
 import Container from '@material-ui/core/Container';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import Nav from '../components/nav';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
+  '@global': {
+    'html, body': {
+      height: '100%',
+    },
+    '#__next': {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
   shared: {
     color: 'white',
   },
@@ -16,7 +26,14 @@ const useStyles = makeStyles({
     backgroundColor: '#6D747A',
     color: 'white',
   },
-});
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    minHeight: 0,
+    paddingBottom: theme.spacing(1),
+  },
+}));
 
 const _Layout: FunctionComponent = ({ children }) => {
   const classes = useStyles();
@@ -31,7 +48,9 @@ const _Layout: FunctionComponent = ({ children }) => {
       }}
     >
       <Nav />
-      <Container>{children}</Container>
+      <Container maxWidth={false} className={classes.container}>
+        {children}
+      </Container>
     </SnackbarProvider>
   );
 };

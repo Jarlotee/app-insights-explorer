@@ -15,23 +15,29 @@ import { ApplicationInsightsResponse } from '../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   results: {
-    margin: theme.spacing(2, 0),
     flexGrow: 1,
+  },
+  item: {
+    padding: theme.spacing(0.5, 2, 0.5, 1),
+    "&:first-of-type" : {
+      paddingLeft: theme.spacing(0)
+    }
   },
 }));
 
 type ConnectionQueryTableProps = {
+  title?: string;
   results?: ApplicationInsightsResponse;
 };
 
-const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ results }) => {
+const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ title, results }) => {
   const classes = useStyles();
   let tcolumns = null;
   let trows = null;
 
   if (results && results.tables && results.tables[0]) {
     tcolumns = results.tables[0].columns.map((c, i) => (
-      <TableCell key={i} align={i === 0 ? 'left' : 'right'}>
+      <TableCell key={i} className={classes.item} align={i === 0 ? 'left' : 'right'}>
         {c.name}
       </TableCell>
     ));
@@ -39,7 +45,7 @@ const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ re
     trows = results.tables[0].rows.map((r, i) => (
       <TableRow key={i}>
         {r.map((v, j) => (
-          <TableCell key={j} align={j === 0 ? 'left' : 'right'}>
+          <TableCell key={j} className={classes.item} align={j === 0 ? 'left' : 'right'}>
             {v}
           </TableCell>
         ))}
@@ -49,7 +55,7 @@ const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ re
 
   return (
     <TableContainer className={classes.results}>
-      <Table size="small">
+      <Table size="small" padding="none">
         <TableHead>
           <TableRow>{tcolumns}</TableRow>
         </TableHead>
