@@ -17,6 +17,9 @@ const ConnectionResults: FunctionComponent<ConnectionResultsProps> = ({ query, r
   if (query && query.match(/\|\s+render\s+piechart\s*$/i)) {
     const ConnectionQueryPie = dynamic(() => import('./_pie'), { ssr: false });
     return <ConnectionQueryPie results={results} />;
+  } else if (query && query.match(/\|\s+render\s+timechart\s*$/i)) {
+    const ConnectionQueryLine = dynamic(() => import('./_line'), { ssr: false });
+    return <ConnectionQueryLine results={results} />;
   } else {
     const ConnectionQueryTable = dynamic(() => import('./_table'), { ssr: false });
     return <ConnectionQueryTable results={results} />;
