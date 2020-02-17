@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles, Theme, Paper } from '@material-ui/core';
 
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 

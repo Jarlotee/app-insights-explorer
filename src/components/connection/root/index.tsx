@@ -14,7 +14,9 @@ const ConnectionRoot: FunctionComponent = () => {
   const ConnectionQuery = dynamic(() => import('../query'));
   const ConnectionDashboard = dynamic(() => import('../dashboard'));
 
-  const body = activeTab === 'query' ? <ConnectionQuery /> : <ConnectionDashboard />;
+  const handleOnPin = () => setActiveTab('dashboard');
+
+  const body = activeTab === 'query' ? <ConnectionQuery onPin={handleOnPin} /> : <ConnectionDashboard />;
 
   return (
     <>

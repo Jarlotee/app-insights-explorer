@@ -38,6 +38,7 @@ type ConnectionQueryFormProps = {
   error: string;
   isRunning: boolean;
   onDashboardPush: (item: DashboardItem) => void;
+  onPin: () => void;
 };
 
 const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
@@ -46,6 +47,7 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
   error,
   isRunning,
   onDashboardPush,
+  onPin
 }) => {
   const classes = useStyles();
   const queryRef = useRef<HTMLInputElement>();
@@ -69,6 +71,7 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
       height: 3,
     };
     onDashboardPush(item);
+    onPin();
   };
 
   return (

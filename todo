@@ -1,8 +1,6 @@
-* add query type (table and chart)
-* add timeseries chart
-* add refresh
+* add line chart
 * add dashboard upload
 * add dashboard download
 * add template outlines for screen sizes
 * add full screen css and stop worrying about calc offsets for chrome
-
+* save query by name

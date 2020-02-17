@@ -22,11 +22,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     flexGrow: 1,
     margin: theme.spacing(1, 0),
-    overflow: 'scroll'
+    overflow: 'scroll',
   },
 }));
 
-const ConnectionQuery: FunctionComponent = () => {
+type ConnectionQueryProps = {
+  onPin: () => void;
+};
+
+const ConnectionQuery: FunctionComponent<ConnectionQueryProps> = ({ onPin }) => {
   const classes = useStyles();
   const connection = useConnection();
 
@@ -42,6 +46,7 @@ const ConnectionQuery: FunctionComponent = () => {
         error={error}
         isRunning={isRunning}
         onDashboardPush={onPush}
+        onPin={onPin}
       />
       <div className={classes.results}>
         <ConnectionResults query={query} results={results} />
