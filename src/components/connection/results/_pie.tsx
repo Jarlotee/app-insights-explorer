@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 
-import { makeStyles, Theme, Paper } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
@@ -46,7 +46,10 @@ const ConnectionQueryPie: FunctionComponent<ConnectionQueryPieProps> = ({ result
             })}
           </Pie>
           <Legend layout="vertical" verticalAlign="middle" align="right" />
-          <Tooltip />
+          <Tooltip
+            contentStyle={{ backgroundColor: '#2A343D', border: 'none' }}
+            itemStyle={{ color: 'white' }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
