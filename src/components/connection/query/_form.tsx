@@ -67,8 +67,8 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
       type: ItemTypes.query,
       title: 'New Query',
       query: query,
-      width: 4,
-      height: 3,
+      width: 7,
+      height: 5,
     };
     onDashboardPush(item);
     onPin();

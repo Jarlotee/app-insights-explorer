@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: '#3e464f',
   },
   error: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 }));
 
 type DashboardLabelTileProps = {
@@ -64,7 +64,7 @@ const DashboardQueryTile: FunctionComponent<DashboardLabelTileProps> = ({
   const { error, isRunning, results, queryTimeStamp } = useQuery(connection, item.query);
 
   const handleOnEdit = () => setIsItemEditing(value => !value);
-console.log('heh', isRunning, error, results);
+
   let content = null;
 
   if (isRunning) {
