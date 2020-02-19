@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     flexGrow: 1,
     margin: theme.spacing(1, 0),
-    overflow: 'scroll',
+    overflow: 'auto',
   },
 }));
 
