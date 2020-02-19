@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   editing: {
     flexGrow: 1,
-    overflow: 'scroll',
+    overflow: 'auto',
   },
   scrollable: {
     display: 'grid',

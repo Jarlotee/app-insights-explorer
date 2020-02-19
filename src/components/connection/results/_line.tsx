@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   pieContainer: {
     display: 'flex',
     flexGrow: 1,
-    overflow: 'scroll',
+    overflow: 'auto',
     justifyContent: 'center',
   },
 }));

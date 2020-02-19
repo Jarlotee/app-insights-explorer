@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     padding: theme.spacing(1, 2),
     position: 'relative',
-    overflow: 'scroll',
+    overflow: 'auto',
   },
   title: {
     fontSize: '1.25rem',
