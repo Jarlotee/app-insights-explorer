@@ -56,7 +56,7 @@ const ConnectionDashboard: FunctionComponent = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <div id="dashboard" className={classes.root}>
       <ConnectionDashboardToolbar
         dashboard={dashboard}
         isEditing={isEditing}

@@ -9,8 +9,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     minHeight: 0,
+    overflow: 'auto',
   },
   layout: {
+    flexShrink: 0,
     display: 'grid',
     gridGap: '4px',
     gridAutoFlow: 'dense',
@@ -57,7 +59,7 @@ const ConnectionDashboardContainerDisplay: FunctionComponent<ConnectionDashboard
   }, [dashboard]);
 
   return (
-    <div className={classes.root}>
+    <div id="dashboard-body-dispay" className={classes.root}>
       <div className={classes.layout} style={styles}>
         {layout}
       </div>

@@ -76,7 +76,7 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className={classes.root}>
+      <div id="dashboard-body-edit" className={classes.root}>
         <ConnectionDashboardTileDrawer />
         <div className={classes.editing}>
           <div className={classes.scrollable}>{editingLayout}</div>
