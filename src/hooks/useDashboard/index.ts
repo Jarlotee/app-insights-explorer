@@ -33,10 +33,12 @@ const useDashboard = (connectionName: string) => {
       .filter(existing => {
         for (const existing_position of existing.positions) {
           for (const item_position of item.positions) {
-            return (
+            if (
               existing_position.row == item_position.row &&
               existing_position.column == item_position.column
-            );
+            ) {
+              return true;
+            }
           }
         }
       });
@@ -103,6 +105,10 @@ const useDashboard = (connectionName: string) => {
       .filter(i => i.anchor.column <= _item.width)
       .map(i => i.anchor.row + i.height - 1);
 
+    if (itemRows.length === 0) {
+      itemRows.push(0);
+    }
+
     item.anchor = { column: 1, row: Math.max(...itemRows) + 1 };
     item.positions = calculatePositions(item);
 
@@ -126,12 +132,12 @@ const useDashboard = (connectionName: string) => {
   const onUpload = (encodedJson: string) => {
     const error = validateDashboard(encodedJson);
 
-    if(error){
+    if (error) {
       return error;
     }
 
     setDashboard(JSON.parse(encodedJson));
-  }
+  };
 
   useEffect(() => {
     const dashboard = getDashboard(connectionName);
