@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState, useEffect, useRef } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core';
 
@@ -35,6 +35,7 @@ type ConnectionQueryLineProps = {
 const ConnectionQueryLine: FunctionComponent<ConnectionQueryLineProps> = ({ results }) => {
   const classes = useStyles();
   const [data, setData] = useState([]);
+  const containerRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
     if (results && results.tables && results.tables.length > 0) {
@@ -69,12 +70,20 @@ const ConnectionQueryLine: FunctionComponent<ConnectionQueryLineProps> = ({ resu
     }
   }
 
+  const dynamicHeight = containerRef.current ? containerRef.current.clientHeight - 5 : 0;
+
   return (
-    <div className={classes.pieContainer}>
-      <ResponsiveContainer>
+    <div className={classes.pieContainer} ref={containerRef}>
+      <ResponsiveContainer height={dynamicHeight}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis interval="preserveStart" dataKey="name" stroke="#FFFFFF" tickFormatter={tickFormatter} minTickGap={25} />
+          <XAxis
+            interval="preserveStart"
+            dataKey="name"
+            stroke="#FFFFFF"
+            tickFormatter={tickFormatter}
+            minTickGap={25}
+          />
           <YAxis width={24} stroke="#FFFFFF" />
           <Legend verticalAlign="top" height={32} />
           <Tooltip
