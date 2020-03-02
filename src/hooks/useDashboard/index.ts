@@ -103,6 +103,10 @@ const useDashboard = (connectionName: string) => {
       .filter(i => i.anchor.column <= _item.width)
       .map(i => i.anchor.row + i.height - 1);
 
+    if(itemRows.length === 0) {
+      itemRows.push(0);
+    }
+
     item.anchor = { column: 1, row: Math.max(...itemRows) + 1 };
     item.positions = calculatePositions(item);
 
