@@ -75,7 +75,7 @@ const ConnectionQueryLine: FunctionComponent<ConnectionQueryLineProps> = ({ resu
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis interval="preserveStart" dataKey="name" stroke="#FFFFFF" tickFormatter={tickFormatter} minTickGap={25} />
-          <YAxis width={18} stroke="#FFFFFF" />
+          <YAxis width={24} stroke="#FFFFFF" />
           <Legend verticalAlign="top" height={32} />
           <Tooltip
             contentStyle={{ backgroundColor: '#2A343D', border: 'none' }}
