@@ -12,10 +12,6 @@ import { ItemTypes } from '../../_constants';
 import { DashboardLabelItem } from '../../../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    width: '188px',
-    height: '60px',
-  },
   dragging: {
     opacity: 0.1,
   },
@@ -42,7 +38,7 @@ const ConnectionDashboardTileLabel: FunctionComponent = () => {
   }, []);
 
   return (
-    <ListItem ref={ref} className={classnames(classes.root, { [classes.dragging]: isDragging })}>
+    <ListItem ref={ref} className={classnames({ [classes.dragging]: isDragging })}>
       <ListItemIcon>
         <LabelIcon />
       </ListItemIcon>

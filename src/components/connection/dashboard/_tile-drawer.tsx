@@ -8,6 +8,7 @@ import ConnectionDashboardTileNewQuery from './tiles/new-query';
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     marginRight: theme.spacing(1),
+    minWidth: theme.spacing(32),
   },
 }));
 
