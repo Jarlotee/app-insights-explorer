@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import { ListSubheader, List, Paper, makeStyles, Theme } from '@material-ui/core';
 
 import ConnectionDashboardTileNewLabel from './tiles/new-label';
+import ConnectionDashboardTileNewQuery from './tiles/new-query';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -18,6 +19,7 @@ const ConnectionDashboardTileDrawer: FunctionComponent = () => {
     <Paper className={classes.root}>
       <List component="ul" subheader={header}>
         {<ConnectionDashboardTileNewLabel key={0} />}
+        {<ConnectionDashboardTileNewQuery key={1} />}
       </List>
     </Paper>
   );

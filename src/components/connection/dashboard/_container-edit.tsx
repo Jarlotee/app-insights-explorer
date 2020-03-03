@@ -6,8 +6,12 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Theme, makeStyles } from '@material-ui/core';
 
 import ConnectionDashboardPlaceholder from './_placeholder';
+
 import { Dashboard, DashboardItem, DashboardCoordinate } from '../../../models';
+
 import ConnectionDashboardTileDrawer from './_tile-drawer';
+import ConnectionDashboardDragLayer from './_drag-layer';
+
 import mapItemToTile from './_tile-mapper';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -79,7 +83,10 @@ const ConnectionDashboardContainerEdit: FunctionComponent<ConnectionDashboardCon
       <div id="dashboard-body-edit" className={classes.root}>
         <ConnectionDashboardTileDrawer />
         <div className={classes.editing}>
-          <div className={classes.scrollable}>{editingLayout}</div>
+          <div className={classes.scrollable}>
+            {<ConnectionDashboardDragLayer />}
+            {editingLayout}
+          </div>
         </div>
       </div>
     </DndProvider>

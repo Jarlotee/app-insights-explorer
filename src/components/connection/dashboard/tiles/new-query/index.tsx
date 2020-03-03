@@ -7,9 +7,11 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { ListItem, ListItemText, ListItemIcon, makeStyles, Theme } from '@material-ui/core';
 
-import LabelIcon from '@material-ui/icons/Label';
+import TableChartIcon from '@material-ui/icons/TableChart';
+
 import { ItemTypes } from '../../_constants';
-import { DashboardLabelItem } from '../../../../../models';
+
+import { DashboardQueryItem } from '../../../../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -21,15 +23,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ConnectionDashboardTileLabel: FunctionComponent = () => {
+const ConnectionDashboardTileQuery: FunctionComponent = () => {
   const classes = useStyles();
 
-  const item: DashboardLabelItem = {
-    type: ItemTypes.label,
-    width: 3,
-    height: 1,
-    title: 'Primary Text',
-    subTitle: 'Secondary Text',
+  const item: DashboardQueryItem = {
+    type: ItemTypes.query,
+    width: 7,
+    height: 5,
+    title: 'New Query',
+    query: '',
   };
 
   const [{ isDragging }, ref, preview] = useDrag({
@@ -44,11 +46,11 @@ const ConnectionDashboardTileLabel: FunctionComponent = () => {
   return (
     <ListItem ref={ref} className={classnames(classes.root, { [classes.dragging]: isDragging })}>
       <ListItemIcon>
-        <LabelIcon />
+        <TableChartIcon />
       </ListItemIcon>
-      <ListItemText>Label</ListItemText>
+      <ListItemText>Query</ListItemText>
     </ListItem>
   );
 };
 
-export default ConnectionDashboardTileLabel;
+export default ConnectionDashboardTileQuery;
