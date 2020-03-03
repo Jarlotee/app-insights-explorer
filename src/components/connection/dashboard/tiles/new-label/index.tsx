@@ -1,8 +1,9 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
 import classnames from 'classnames';
 
-import { useDrag, DragSourceMonitor } from 'react-dnd';
+import { useDrag } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { ListItem, ListItemText, ListItemIcon, makeStyles, Theme } from '@material-ui/core';
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConnectionDashboardTileLabel: FunctionComponent = () => {
   const classes = useStyles();
-  const collect = (monitor: DragSourceMonitor) => ({ isDragging: monitor.isDragging() });
+
   const item: DashboardLabelItem = {
     type: ItemTypes.label,
     width: 3,
@@ -31,7 +32,14 @@ const ConnectionDashboardTileLabel: FunctionComponent = () => {
     subTitle: 'Secondary Text',
   };
 
-  const [{ isDragging }, ref] = useDrag({ item, collect });
+  const [{ isDragging }, ref, preview] = useDrag({
+    item,
+    collect: monitor => ({ isDragging: monitor.isDragging() }),
+  });
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, []);
 
   return (
     <ListItem ref={ref} className={classnames(classes.root, { [classes.dragging]: isDragging })}>
