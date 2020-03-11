@@ -11,7 +11,7 @@ import {
   TableBody,
 } from '@material-ui/core';
 
-import { ApplicationInsightsResponse } from '../../../models';
+import { ApplicationInsightsResponse } from '../../models';
 
 const useStyles = makeStyles((theme: Theme) => ({
   results: {
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionQueryTableProps = {
+type ResultsTableProps = {
   title?: string;
   results?: ApplicationInsightsResponse;
 };
 
-const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ title, results }) => {
+const ResultsTable: FunctionComponent<ResultsTableProps> = ({ title, results }) => {
   const classes = useStyles();
   let tcolumns = null;
   let trows = null;
@@ -65,4 +65,4 @@ const ConnectionQueryTable: FunctionComponent<ConnectionQueryTableProps> = ({ ti
   );
 };
 
-export default ConnectionQueryTable;
+export default ResultsTable;

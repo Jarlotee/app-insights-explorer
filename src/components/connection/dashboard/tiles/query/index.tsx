@@ -9,7 +9,7 @@ import ConnectionDashboardTileEditBase from '../edit-base';
 import { DashboardItem, DashboardQueryItem } from '../../../../../models';
 
 import ConnectionDashboardTileBase from '../base';
-import ConnectionResults from '../../../results';
+import ConnectionResults from '../../../../results';
 import useConnection from '../../../../../hooks/useConnection';
 import useQuery from '../../../../../hooks/useQuery';
 import ConnectionDashboardQueryTileEdit from './_edit';

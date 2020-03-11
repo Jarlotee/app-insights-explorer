@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react';
 import { Drawer, ListSubheader, ListItem, ListItemText, List } from '@material-ui/core';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
-import useConnection from '../../../hooks/useConnection';
-import useQueryHistory from '../../../hooks/useQueryHistory';
+import useConnection from '../../hooks/useConnection';
+import useQueryHistory from '../../hooks/useQueryHistory';
 
 type ConnectionQueryHistoryProps = {
   isOpen: boolean;
@@ -16,7 +16,7 @@ const ConnectionQueryHistory: FunctionComponent<ConnectionQueryHistoryProps> = (
   handleToggle,
   handleSetQuery,
 }) => {
-  const connection = useConnection();
+  const { connection } = useConnection();
   const queryHistory = useQueryHistory(connection);
 
   const handleItemClick = (query: string) => {

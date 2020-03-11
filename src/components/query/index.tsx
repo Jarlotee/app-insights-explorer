@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { makeStyles, Theme } from '@material-ui/core';
 
-import useConnection from '../../../hooks/useConnection';
-import useQuery from '../../../hooks/useQuery';
+import useConnection from '../../hooks/useConnection';
+import useQuery from '../../hooks/useQuery';
+import useDashboard from '../../hooks/useDashboard';
 
-import ConnectionQueryForm from './_form';
-import useDashboard from '../../../hooks/useDashboard';
-import ConnectionResults from '../results';
+import Form from './_form';
+import Results from '../results';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,13 +28,17 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionQueryProps = {
-  onPin: () => void;
-};
+type QueryProps = {};
 
-const ConnectionQuery: FunctionComponent<ConnectionQueryProps> = ({ onPin }) => {
+const Query: FunctionComponent<QueryProps> = () => {
   const classes = useStyles();
-  const connection = useConnection();
+  const router = useRouter();
+
+  const { connection } = useConnection();
+
+  const onPin = () => {
+    router.push('/dashboard');
+  };
 
   const { onPush } = useDashboard(connection ? connection.name : '');
 
@@ -40,7 +46,7 @@ const ConnectionQuery: FunctionComponent<ConnectionQueryProps> = ({ onPin }) => 
 
   return (
     <div className={classes.root}>
-      <ConnectionQueryForm
+      <Form
         setQuery={setQuery}
         query={query}
         error={error}
@@ -49,10 +55,10 @@ const ConnectionQuery: FunctionComponent<ConnectionQueryProps> = ({ onPin }) => 
         onPin={onPin}
       />
       <div className={classes.results}>
-        <ConnectionResults query={query} results={results} />
+        <Results query={query} results={results} />
       </div>
     </div>
   );
 };
 
-export default ConnectionQuery;
+export default Query;

@@ -2,6 +2,7 @@ export interface Connection {
   name: string;
   id: string;
   key: string;
+  default?: boolean;
 }
 
 export interface QueryHistoryItem {

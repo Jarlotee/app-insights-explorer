@@ -4,7 +4,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-import { ApplicationInsightsResponse } from '../../../models';
+import { ApplicationInsightsResponse } from '../../models';
 
 const colors = ['#FAE700', '#FFD900', '#FFC000', '#FFA700', '#FE7A00'];
 
@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionQueryPieProps = {
+type ResultsPieGraphProps = {
   results?: ApplicationInsightsResponse;
 };
 
-const ConnectionQueryPie: FunctionComponent<ConnectionQueryPieProps> = ({ results }) => {
+const ResultsPieGraph: FunctionComponent<ResultsPieGraphProps> = ({ results }) => {
   const classes = useStyles();
   const [data, setData] = useState([]);
 
@@ -56,4 +56,4 @@ const ConnectionQueryPie: FunctionComponent<ConnectionQueryPieProps> = ({ result
   );
 };
 
-export default ConnectionQueryPie;
+export default ResultsPieGraph;

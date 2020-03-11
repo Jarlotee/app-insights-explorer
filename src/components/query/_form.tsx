@@ -9,10 +9,14 @@ import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 
 import ConnectionQueryHistory from './_history';
-import { DashboardItem, DashboardQueryItem } from '../../../models';
-import { ItemTypes } from '../dashboard/_constants';
+import { DashboardItem, DashboardQueryItem } from '../../models';
+import { ItemTypes } from '../connection/dashboard/_constants';
+import ConnectionPicker from '../connection/picker';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  toolbar: {
+    overflow: 'auto',
+  },
   menuButton: {
     minWidth: theme.spacing(12),
     marginRight: theme.spacing(1),
@@ -32,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionQueryFormProps = {
+type QueryFormProps = {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   error: string;
@@ -41,13 +45,13 @@ type ConnectionQueryFormProps = {
   onPin: () => void;
 };
 
-const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
+const QueryForm: FunctionComponent<QueryFormProps> = ({
   query,
   setQuery,
   error,
   isRunning,
   onDashboardPush,
-  onPin
+  onPin,
 }) => {
   const classes = useStyles();
   const queryRef = useRef<HTMLInputElement>();
@@ -81,7 +85,8 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
         handleToggle={handleHistoryClick}
         handleSetQuery={handleSetQuery}
       />
-      <Toolbar variant="dense" disableGutters={true}>
+      <ConnectionPicker />
+      <Toolbar variant="dense" disableGutters={true} className={classes.toolbar}>
         <Button
           size="small"
           variant="contained"
@@ -146,4 +151,4 @@ const ConnectionQueryForm: FunctionComponent<ConnectionQueryFormProps> = ({
   );
 };
 
-export default ConnectionQueryForm;
+export default QueryForm;

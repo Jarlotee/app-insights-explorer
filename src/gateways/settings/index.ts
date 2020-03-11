@@ -26,11 +26,11 @@ export const getConnections = () => {
 
 export const getConnection = (name: string) => {
   if (typeof window === 'undefined') {
-    return;
+    return undefined;
   }
 
   const connections = JSON.parse(localStorage.getItem('connections') || '{}');
-  return connections[name];
+  return connections[name] as Connection;
 };
 
 export const addQueryHistory = (connectionName: string, query: string) => {

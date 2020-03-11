@@ -15,7 +15,7 @@ import {
 
 import { format, parseISO } from 'date-fns';
 
-import { ApplicationInsightsResponse } from '../../../models';
+import { ApplicationInsightsResponse } from '../../models';
 
 const colors = ['#FAE700', '#FFD900', '#FFC000', '#FFA700', '#FE7A00'];
 
@@ -28,11 +28,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionQueryLineProps = {
+type ResultsLineGraphProps = {
   results?: ApplicationInsightsResponse;
 };
 
-const ConnectionQueryLine: FunctionComponent<ConnectionQueryLineProps> = ({ results }) => {
+const ResultsLineGraph: FunctionComponent<ResultsLineGraphProps> = ({ results }) => {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const containerRef = useRef<HTMLDivElement>();
@@ -104,4 +104,4 @@ const ConnectionQueryLine: FunctionComponent<ConnectionQueryLineProps> = ({ resu
   );
 };
 
-export default ConnectionQueryLine;
+export default ResultsLineGraph;
