@@ -11,6 +11,7 @@ import Layout from './_layout';
 import theme from '../theme';
 
 import ConnectionContextProvider from '../hoc/connection-context-provider';
+import DashboardContextProvider from '../hoc/dashboard-context-provider';
 
 const _App: NextPage<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -33,10 +34,12 @@ const _App: NextPage<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider theme={theme}>
         <ConnectionContextProvider>
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <DashboardContextProvider>
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </DashboardContextProvider>
         </ConnectionContextProvider>
       </ThemeProvider>
     </>

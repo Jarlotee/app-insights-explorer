@@ -12,10 +12,6 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 
-import { verify } from '../../../gateways/app-insights';
-
-import useConnectionContext from '../../../hooks/useConnectionContext';
-
 const useStyles = makeStyles((theme: Theme) => ({
   field: {
     width: '100%',
@@ -23,12 +19,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ConnectionCreationDialogProps = {
+type DashboardCreationDialogProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const ConnectionCreationDialog: FunctionComponent<ConnectionCreationDialogProps> = ({
+const DashboardCreationDialog: FunctionComponent<DashboardCreationDialogProps> = ({
   isOpen,
   onClose,
 }) => {
@@ -102,4 +98,4 @@ const ConnectionCreationDialog: FunctionComponent<ConnectionCreationDialogProps>
   );
 };
 
-export default ConnectionCreationDialog;
+export default DashboardCreationDialog;

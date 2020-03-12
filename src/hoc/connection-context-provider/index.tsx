@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getConnection, getConnections, saveConnection } from '../../gateways/settings';
+import { getConnections, saveConnections } from '../../gateways/settings';
 
 import { Connection } from '../../models';
 
@@ -26,19 +26,32 @@ const ConnectionContextProvider = ({ children }) => {
     setConnections(getConnections());
   }, []);
 
+  const syncConnections = () => {
+    if (!!connection) {
+      const updatedConnections = connections.map(c => ({
+        ...{ default: c.name === connection.name },
+        ...c,
+      }));
+      setConnections(updatedConnections);
+      saveConnections(updatedConnections);
+    } else {
+      saveConnections(connections);
+    }
+  };
+
   const onChange = (name: string) => {
-    const foundConnection = getConnection(name);
+    const foundConnection = connections.filter(c => c.name === name)[0];
 
     if (foundConnection) {
-      saveConnection({ ...{ default: true }, ...foundConnection });
       setConnection(foundConnection);
+      syncConnections();
     }
   };
 
   const onSave = (newConnection: Connection) => {
-    saveConnection({ ...{ default: true }, ...newConnection });
-    setConnections(getConnections());
+    setConnections([...[newConnection], ...connections]);
     setConnection(newConnection);
+    syncConnections();
   };
 
   return (

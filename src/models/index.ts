@@ -26,6 +26,8 @@ export interface ApplicationInsightTableColumn {
 
 export interface Dashboard {
   items: DashboardItem[];
+  name: string;
+  default?: boolean;
 }
 
 export interface DashboardCoordinate {
@@ -50,5 +52,6 @@ export interface DashboardLabelItem extends DashboardItem {
 export interface DashboardQueryItem extends DashboardItem {
   title: string;
   query: string;
+  connection?: string;
   lastRefresh?: string;
 }

@@ -8,10 +8,15 @@ import LanguageIcon from '@material-ui/icons/Language';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 
+import { DashboardQueryItem } from '../../models';
+import { ItemTypes } from '../dashboard/_constants';
+
 import ConnectionQueryHistory from './_history';
-import { DashboardItem, DashboardQueryItem } from '../../models';
-import { ItemTypes } from '../connection/dashboard/_constants';
 import ConnectionPicker from '../connection/picker';
+
+import useDashboardContext from '../../hooks/useDashboardContext';
+import { useRouter } from 'next/router';
+import useConnectionContext from '../../hooks/useConnectionContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   toolbar: {
@@ -41,25 +46,20 @@ type QueryFormProps = {
   setQuery: Dispatch<SetStateAction<string>>;
   error: string;
   isRunning: boolean;
-  onDashboardPush: (item: DashboardItem) => void;
-  onPin: () => void;
 };
 
-const QueryForm: FunctionComponent<QueryFormProps> = ({
-  query,
-  setQuery,
-  error,
-  isRunning,
-  onDashboardPush,
-  onPin,
-}) => {
+const QueryForm: FunctionComponent<QueryFormProps> = ({ query, setQuery, error, isRunning }) => {
   const classes = useStyles();
   const queryRef = useRef<HTMLInputElement>();
-  const [isQueryHistoryOpen, setIsQueryHistoryOpen] = useState();
+  const [isQueryHistoryOpen, setIsQueryHistoryOpen] = useState<boolean>();
+  const router = useRouter();
+  const { onPushItem } = useDashboardContext();
+  const { connection } = useConnectionContext();
 
   const handleRunClick = () => setQuery(queryRef.current.value);
   const handleHistoryClick = () => setIsQueryHistoryOpen(s => !s);
   const handleSetQuery = (query: string) => (queryRef.current.value = query);
+
   const handleFormatQuery = () => {
     queryRef.current.value = queryRef.current.value
       .replace(/\s{2,}/g, ' ')
@@ -70,12 +70,13 @@ const QueryForm: FunctionComponent<QueryFormProps> = ({
     const item: DashboardQueryItem = {
       type: ItemTypes.query,
       title: 'New Query',
+      connection: connection.name,
       query: query,
       width: 7,
       height: 5,
     };
-    onDashboardPush(item);
-    onPin();
+    onPushItem(item);
+    router.push('/dashboard');
   };
 
   return (

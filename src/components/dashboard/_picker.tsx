@@ -12,9 +12,9 @@ import {
 } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
+import useDashboardContext from '../../hooks/useDashboardContext';
 
-import useConnectionContext from '../../../hooks/useConnectionContext';
-import ConnectionCreationDialog from '../creation-dialog';
+import DashboardCreationDialog from './_creation-dialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ConnectionPicker: FunctionComponent = ({}) => {
+const DashboardPicker: FunctionComponent = ({}) => {
   const classes = useStyles();
-  const { connection, connections, onChange } = useConnectionContext();
+  const { dashboard, dashboards, onChange } = useDashboardContext();
   const [creationDialogOpen, setCreationDialogOpen] = useState(false);
   const handleCreationDialogClose = () => setCreationDialogOpen(false);
 
   const handleChange = event => {
-    if (event.target.value === 'new-connection') {
+    if (event.target.value === 'new-dashboard') {
       setCreationDialogOpen(true);
     } else {
       onChange(event.target.value);
@@ -42,10 +42,10 @@ const ConnectionPicker: FunctionComponent = ({}) => {
   };
 
   let items = null;
-  if (connections) {
-    items = connections.map((conn, index) => (
-      <MenuItem key={index} value={conn.name} dense={true}>
-        <ListItemText primary={conn.name} />
+  if (dashboards) {
+    items = dashboards.map((dash, index) => (
+      <MenuItem key={index} value={dash} dense={true}>
+        <ListItemText primary={dash} />
       </MenuItem>
     ));
   }
@@ -53,28 +53,28 @@ const ConnectionPicker: FunctionComponent = ({}) => {
   return (
     <>
       <FormControl variant="outlined" className={classes.root}>
-        <InputLabel id="connection-picker-label" margin="dense">
+        <InputLabel id="dashboard-picker-label" margin="dense">
           Connection
         </InputLabel>
         <Select
-          value={connection ? connection.name : ''}
+          value={dashboard ? dashboard.name : ''}
           onChange={handleChange}
-          labelId="connection-picker-label"
+          labelId="dashboard-picker-label"
           label="Connection"
           margin="dense"
         >
           {items}
-          <MenuItem value="new-connection" dense={true}>
+          <MenuItem value="new-dashboard" dense={true}>
             <ListItemIcon className={classes.icon}>
               <AddIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary="Create New Connection" />
+            <ListItemText primary="Create New Dashboard" />
           </MenuItem>
         </Select>
       </FormControl>
-      <ConnectionCreationDialog isOpen={creationDialogOpen} onClose={handleCreationDialogClose} />
+      <DashboardCreationDialog isOpen={creationDialogOpen} onClose={handleCreationDialogClose} />
     </>
   );
 };
 
-export default ConnectionPicker;
+export default DashboardPicker;
