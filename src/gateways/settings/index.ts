@@ -73,6 +73,13 @@ export const getDashboards = () => {
 
   const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
 
+  Object.keys(dashboards).forEach(key => {
+    if(!dashboards[key].name) {
+      dashboards[key].name = key;
+      saveDashboard(dashboards[key]);
+    }
+  })
+
   return Object.keys(dashboards).map(k => ({
     name: k,
     default: dashboards[k].default,
