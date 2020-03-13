@@ -38,6 +38,7 @@ const dashboardItem = joi.object({
   subTitle: joi.string(),
   // query
   query: joi.string(),
+  connection: joi.string(),
 });
 
 const dashboard = joi.object({
