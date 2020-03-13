@@ -1,15 +1,16 @@
-import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 
-import { getConnection } from '../../gateways/settings';
-import { useState, useEffect } from 'react';
+import { Connection } from '../../models';
 
-const useConnection = () => {
-  const connectionName = useRouter().query['connection-name']
-  const [connection, setConnection] = useState();
+import context from '../../contexts/connection';
+
+const useConnection = (name: string) => {
+  const { connections } = useContext(context);
+  const [connection, setConnection] = useState<Connection>();
 
   useEffect(() => {
-    setConnection(getConnection(connectionName as string))
-  }, [connectionName]);
+    setConnection(connections.filter(c => c.name === name)[0]);
+  }, [name]);
 
   return connection;
 };

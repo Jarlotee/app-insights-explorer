@@ -1,10 +1,12 @@
 import { Connection, QueryHistoryItem, Dashboard } from '../../models';
 
-export const saveConnection = (connection: Connection) => {
-  const { name } = connection;
-
+export const saveConnections = (updatedConnections: Connection[]) => {
   const connections = JSON.parse(localStorage.getItem('connections') || '{}');
-  connections[name] = connection;
+
+  for (const connection of updatedConnections) {
+    connections[connection.name] = connection;
+  }
+
   localStorage.setItem('connections', JSON.stringify(connections));
 };
 
@@ -26,11 +28,11 @@ export const getConnections = () => {
 
 export const getConnection = (name: string) => {
   if (typeof window === 'undefined') {
-    return;
+    return undefined;
   }
 
   const connections = JSON.parse(localStorage.getItem('connections') || '{}');
-  return connections[name];
+  return connections[name] as Connection;
 };
 
 export const addQueryHistory = (connectionName: string, query: string) => {
@@ -58,14 +60,50 @@ export const getQueryHistory = (connectionName: string) => {
   return item[connectionName] || [];
 };
 
-export const getDashboard = (connectionName: string) => {
+export const getDashboard = (dashBoardName: string) => {
   const item = JSON.parse(localStorage.getItem('dashboards') || '{}');
 
-  return item[connectionName] as Dashboard || { items: [] } as Dashboard;
+  return (item[dashBoardName] as Dashboard);
 };
 
-export const saveDashboard = (connectionName: string, dashboard: Dashboard) => {
+export const getDashboards = () => {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
   const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
-  dashboards[connectionName] = dashboard;
+
+  Object.keys(dashboards).forEach(key => {
+    if(!dashboards[key].name) {
+      dashboards[key].name = key;
+      saveDashboard(dashboards[key]);
+    }
+  })
+
+  return Object.keys(dashboards).map(k => ({
+    name: k,
+    default: dashboards[k].default,
+  }));
+};
+
+export const saveDashboard = (dashboard: Dashboard) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+  dashboards[dashboard.name] = dashboard;
   localStorage.setItem('dashboards', JSON.stringify(dashboards));
 };
+
+export const deleteDashboard = (dashBoardName: string) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+  delete dashboards[dashBoardName];
+  localStorage.setItem('dashboards', JSON.stringify(dashboards));
+}
+
+export const updateDashboards = (currentDashboardName : string) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+
+  Object.keys(dashboards).forEach(key => {
+    dashboards[key].default = dashboards[key].name === currentDashboardName;
+  });
+
+  localStorage.setItem('dashboards', JSON.stringify(dashboards));
+}

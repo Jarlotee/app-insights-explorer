@@ -10,6 +10,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Layout from './_layout';
 import theme from '../theme';
 
+import ConnectionContextProvider from '../hoc/connection-context-provider';
+import DashboardContextProvider from '../hoc/dashboard-context-provider';
+
 const _App: NextPage<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
@@ -30,10 +33,14 @@ const _App: NextPage<AppProps> = ({ Component, pageProps }) => {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ConnectionContextProvider>
+          <DashboardContextProvider>
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </DashboardContextProvider>
+        </ConnectionContextProvider>
       </ThemeProvider>
     </>
   );

@@ -4,9 +4,7 @@ import { AppBar, Toolbar, Link, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
-    display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block',
       padding: theme.spacing(1, 2, 1, 1),
       cursor: 'pointer',
     },
