@@ -7,6 +7,7 @@ import useDashboard from '../../hooks/useDashboardContext';
 import DashboardToolbar from './_toolbar';
 import DashboardContainerEdit from './_container-edit';
 import DashboardContainerDisplay from './_container-display';
+import DashboardPicker from './_picker';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -35,6 +36,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <div id="dashboard" className={classes.root}>
+      <DashboardPicker />
       <DashboardToolbar />
       {body}
     </div>

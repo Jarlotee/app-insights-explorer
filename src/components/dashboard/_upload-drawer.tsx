@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { Drawer, TextField, makeStyles, Theme, Typography, Button } from '@material-ui/core';
 
 import usePortal from '../../hooks/usePortal';
+import useDashboardContext from '../../hooks/useDashboardContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -28,18 +29,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 type DashboardUploadDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
-  onUpload: (encodedJson: string) => string | undefined;
 };
 
 const DashboardUploadDrawer: FunctionComponent<DashboardUploadDrawerProps> = ({
   isOpen,
   onClose,
-  onUpload,
 }) => {
   const classes = useStyles();
   const root = usePortal();
   const dashboardInputRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<string>();
+
+  const { onUpload, setIsEditing } = useDashboardContext();
 
   if (!root) {
     return null;
@@ -56,6 +57,7 @@ const DashboardUploadDrawer: FunctionComponent<DashboardUploadDrawerProps> = ({
     }
 
     setError(undefined);
+    setIsEditing(true);
     onClose();
   };
 

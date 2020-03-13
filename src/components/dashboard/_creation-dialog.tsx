@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogContentText,
 } from '@material-ui/core';
+import useDashboardContext from '../../hooks/useDashboardContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   field: {
@@ -30,25 +31,21 @@ const DashboardCreationDialog: FunctionComponent<DashboardCreationDialogProps> =
 }) => {
   const classes = useStyles();
   const formRef = useRef<HTMLFormElement>(null);
-  const appNameRef = useRef<HTMLInputElement>(null);
-  const appIdRef = useRef<HTMLInputElement>(null);
-  const apiKeyRef = useRef<HTMLInputElement>(null);
+  const dashboardNameRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string>();
-  const { onSave } = useConnectionContext();
+  const { onCreate } = useDashboardContext();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isValid = await verify(appIdRef.current.value, apiKeyRef.current.value);
-    if (isValid) {
-      setError(null);
-      onSave({
-        name: appNameRef.current.value,
-        id: appIdRef.current.value,
-        key: apiKeyRef.current.value,
-      });
-      onClose();
+
+    const name = dashboardNameRef.current.value;
+
+    const error = onCreate(name);
+
+    if (!!error) {
+      setError(error);
     } else {
-      setError('Error validating credentials, please try again.');
+      onClose();
     }
   };
 
@@ -58,33 +55,14 @@ const DashboardCreationDialog: FunctionComponent<DashboardCreationDialogProps> =
         <DialogTitle id="form-dialog-title">Create New Connection</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Create a new connection by entering a descriptive name, app insights identifier and key.
-          </DialogContentText>
-          <DialogContentText>
-            The new connection will be securly stored in your browser.
+            Create a new dashboard by entering a descriptive name.
           </DialogContentText>
           <TextField
-            inputRef={appNameRef}
+            inputRef={dashboardNameRef}
             label="Name"
             className={classes.field}
             required={true}
-            autoComplete="app-name"
-            margin="dense"
-          />
-          <TextField
-            inputRef={appIdRef}
-            label="Application ID"
-            className={classes.field}
-            required={true}
-            autoComplete="app-id"
-            margin="dense"
-          />
-          <TextField
-            inputRef={apiKeyRef}
-            label="API Key"
-            className={classes.field}
-            required={true}
-            autoComplete="app-key"
+            autoComplete="dashboard-name"
             margin="dense"
           />
           <DialogContentText style={{ color: 'red' }}>{error}</DialogContentText>

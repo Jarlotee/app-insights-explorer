@@ -41,6 +41,10 @@ const dashboardItem = joi.object({
 });
 
 const dashboard = joi.object({
+  name: joi
+    .string()
+    .min(1)
+    .required(),
   items: joi
     .array()
     .items(dashboardItem)

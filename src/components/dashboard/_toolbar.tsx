@@ -9,7 +9,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-import ConnectionDashboardUploadDrawer from './_upload-drawer';
+import DashboardUploadDrawer from './_upload-drawer';
 
 import useDashboardContext from '../../hooks/useDashboardContext';
 
@@ -38,7 +38,7 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
   const classes = useStyles();
   const [isUploadDrawerOpen, setIsUploadDrawerOpen] = useState(false);
 
-  const { dashboard, onSave, onUpload, isEditing, setIsEditing } = useDashboardContext();
+  const { dashboard, onSave, onUpload, isEditing, setIsEditing, onDelete } = useDashboardContext();
 
   const handleRefresh = () => {
     window.location.reload();
@@ -53,8 +53,37 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
     setIsEditing(true);
   };
 
+  const handleDelete = () => {
+    const confirmed = confirm(`Are you sure you want to delete ${dashboard.name}`);
+
+    if (confirmed) {
+      onDelete(dashboard.name);
+    }
+  };
+
   const handleUploadDrawerClose = () => setIsUploadDrawerOpen(false);
   const handleUploadClick = () => setIsUploadDrawerOpen(true);
+
+  if(!dashboard){
+    return (
+      <Toolbar variant="dense" disableGutters={true}>
+        <Button
+          size="small"
+          variant="outlined"
+          color="default"
+          className={classes.menuButton}
+          startIcon={<PublishIcon />}
+          onClick={handleUploadClick}
+        >
+          Upload
+        </Button>
+        <DashboardUploadDrawer
+          isOpen={isUploadDrawerOpen}
+          onClose={handleUploadDrawerClose}
+        />
+      </Toolbar>
+    );
+  }
 
   if (isEditing) {
     return (
@@ -88,10 +117,9 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
         >
           Upload
         </Button>
-        <ConnectionDashboardUploadDrawer
+        <DashboardUploadDrawer
           isOpen={isUploadDrawerOpen}
           onClose={handleUploadDrawerClose}
-          onUpload={onUpload}
         />
       </Toolbar>
     );
@@ -131,6 +159,15 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
         download="dashboard.json"
       >
         Download
+      </Button>
+      <Button
+        size="small"
+        variant="outlined"
+        className={classes.menuButton}
+        startIcon={<DeleteIcon />}
+        onClick={handleDelete}
+      >
+        Delete Dashboard
       </Button>
     </Toolbar>
   );

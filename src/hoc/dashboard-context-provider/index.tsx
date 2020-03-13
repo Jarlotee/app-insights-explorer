@@ -6,7 +6,13 @@ import { DashboardItem, DashboardCoordinate, Dashboard } from '../../models';
 
 import Context from '../../contexts/dashboard';
 
-import { getDashboards, saveDashboard, getDashboard } from '../../gateways/settings';
+import {
+  getDashboards,
+  saveDashboard,
+  getDashboard,
+  deleteDashboard,
+  updateDashboards,
+} from '../../gateways/settings';
 import { validateDashboard } from './_validator';
 
 const calculatePositions = (item: DashboardItem) => {
@@ -140,7 +146,14 @@ const DashboardContextProvider = ({ children }) => {
   };
 
   const onCreate = (name: string) => {
-    saveDashboard({ name, items: [], default: true });
+    if (dashboards.indexOf(name) > -1) {
+      return `A dashboard named ${name} already exists`;
+    } else {
+      const newDashboard = { name, items: [], default: true };
+      saveDashboard(newDashboard);
+      setDashboards(getDashboards().map(d => d.name));
+      onChange(name);
+    }
   };
 
   const onSave = () => {
@@ -154,14 +167,30 @@ const DashboardContextProvider = ({ children }) => {
       return error;
     }
 
-    setDashboard(JSON.parse(encodedJson));
+    const uploadedDashboard = JSON.parse(encodedJson);
+
+    setDashboard(uploadedDashboard);
+    setDashboards([...[uploadedDashboard.name], ...dashboards]);
   };
 
   const onChange = (name: string) => {
     const foundDashboard = getDashboard(name);
 
     if (!!foundDashboard) {
-      setDashboard({ ...{ name: name, default: true }, ...foundDashboard });
+      updateDashboards(name);
+      setDashboard(foundDashboard);
+    } else {
+      setDashboard(undefined);
+    }
+  };
+
+  const onDelete = (name: string) => {
+    const foundDashboard = getDashboard(name);
+
+    if (!!foundDashboard) {
+      deleteDashboard(name);
+      setDashboards(getDashboards().map(d => d.name));
+      onChange(getDefaultDashboard());
     }
   };
 
@@ -181,6 +210,7 @@ const DashboardContextProvider = ({ children }) => {
         onUpload,
         onSave,
         onCreate,
+        onDelete,
         onDropItem,
         onEditItem,
         onDeleteItem,

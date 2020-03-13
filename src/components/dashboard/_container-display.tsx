@@ -53,6 +53,8 @@ const DashboardContainerDisplay: FunctionComponent<DashboardContainerDisplayProp
       });
 
       setLayout(tiles);
+    } else {
+      setLayout([]);
     }
   }, [dashboard]);
 

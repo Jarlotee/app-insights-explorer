@@ -42,6 +42,7 @@ const DashboardPicker: FunctionComponent = ({}) => {
   };
 
   let items = null;
+
   if (dashboards) {
     items = dashboards.map((dash, index) => (
       <MenuItem key={index} value={dash} dense={true}>
@@ -54,14 +55,15 @@ const DashboardPicker: FunctionComponent = ({}) => {
     <>
       <FormControl variant="outlined" className={classes.root}>
         <InputLabel id="dashboard-picker-label" margin="dense">
-          Connection
+          {items && items.length ? 'Dashboard' : 'Create New Dashboard'}
         </InputLabel>
         <Select
           value={dashboard ? dashboard.name : ''}
           onChange={handleChange}
           labelId="dashboard-picker-label"
-          label="Connection"
+          label={items && items.length ? 'Dashboard' : 'Create New Dashboard'}
           margin="dense"
+          placeholder="Create New Dashboard"
         >
           {items}
           <MenuItem value="new-dashboard" dense={true}>

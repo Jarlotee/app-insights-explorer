@@ -63,7 +63,7 @@ export const getQueryHistory = (connectionName: string) => {
 export const getDashboard = (dashBoardName: string) => {
   const item = JSON.parse(localStorage.getItem('dashboards') || '{}');
 
-  return (item[dashBoardName] as Dashboard) || ({ items: [] } as Dashboard);
+  return (item[dashBoardName] as Dashboard);
 };
 
 export const getDashboards = () => {
@@ -84,3 +84,19 @@ export const saveDashboard = (dashboard: Dashboard) => {
   dashboards[dashboard.name] = dashboard;
   localStorage.setItem('dashboards', JSON.stringify(dashboards));
 };
+
+export const deleteDashboard = (dashBoardName: string) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+  delete dashboards[dashBoardName];
+  localStorage.setItem('dashboards', JSON.stringify(dashboards));
+}
+
+export const updateDashboards = (currentDashboardName : string) => {
+  const dashboards = JSON.parse(localStorage.getItem('dashboards') || '{}');
+
+  Object.keys(dashboards).forEach(key => {
+    dashboards[key].default = dashboards[key].name === currentDashboardName;
+  });
+
+  localStorage.setItem('dashboards', JSON.stringify(dashboards));
+}
