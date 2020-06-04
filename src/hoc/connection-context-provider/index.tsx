@@ -17,41 +17,47 @@ const getDefaultConnection = () => {
 };
 
 const ConnectionContextProvider = ({ children }) => {
-  const defaultConnection = getDefaultConnection();
   const [connection, setConnection] = useState<Connection>();
   const [connections, setConnections] = useState<Connection[]>();
 
   useEffect(() => {
-    setConnection(defaultConnection);
+    setConnection(getDefaultConnection());
     setConnections(getConnections());
   }, []);
 
-  const syncConnections = () => {
-    if (!!connection) {
-      const updatedConnections = connections.map(c => ({
-        ...{ default: c.name === connection.name },
-        ...c,
-      }));
-      setConnections(updatedConnections);
-      saveConnections(updatedConnections);
-    } else {
+  // handle syncing default
+  useEffect(() => {
+    if(connections && connections.length && !!connection) {
+      const foundConnection = connections.filter(c => connection.name === name)[0];
+
+      if(foundConnection && !foundConnection.default) {
+        const updatedConnections = connections.map(c => ({
+          ...{ default: c.name === connection.name },
+          ...c,
+        }));
+        setConnections(updatedConnections);
+      }
+    }
+  }, [connection, connections]);
+
+  // persistent changes if we have them
+  useEffect(() => {
+    if(connections && connections.length) {
       saveConnections(connections);
     }
-  };
+  }, [connections]);
 
   const onChange = (name: string) => {
     const foundConnection = connections.filter(c => c.name === name)[0];
 
     if (foundConnection) {
       setConnection(foundConnection);
-      syncConnections();
     }
   };
 
   const onSave = (newConnection: Connection) => {
     setConnections([...[newConnection], ...connections]);
     setConnection(newConnection);
-    syncConnections();
   };
 
   return (
