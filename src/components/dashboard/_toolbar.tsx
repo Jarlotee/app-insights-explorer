@@ -40,6 +40,17 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
 
   const { dashboard, onSave, onUpload, isEditing, setIsEditing, onDelete } = useDashboardContext();
 
+  const exportDashboard = () => {
+    if(dashboard) {
+      const copy = { ...dashboard};
+      delete copy.default;
+
+      return JSON.stringify(copy);
+    } else {
+      return JSON.stringify({});
+    }
+  };
+
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -154,7 +165,7 @@ const DashboardToolbar: FunctionComponent<DashboardToolbarProps> = ({}) => {
         className={classes.menuButton}
         startIcon={<GetAppIcon />}
         href={`data:text/plain;charset=utf-8,${encodeURIComponent(
-          JSON.stringify(dashboard || {})
+          exportDashboard()
         )}`}
         download="dashboard.json"
       >
